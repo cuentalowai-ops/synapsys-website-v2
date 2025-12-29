@@ -1,54 +1,57 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import type { Metadata } from "next"
+import { Inter, Space_Grotesk } from "next/font/google"
+import "./globals.css"
+import { siteConfig } from "@/config/site"
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
   subsets: ["latin"],
-});
+  variable: "--font-inter",
+})
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-});
+  variable: "--font-space-grotesk",
+})
 
 export const metadata: Metadata = {
-  title: "Synapsys - EUDI Wallet Relying Party Dashboard",
-  description: "Enterprise-grade dashboard for EUDI wallet verification and management. Compliant with eIDAS 2.0, GDPR, NIS2, and ISO 27001.",
-  keywords: ["EUDI", "wallet", "verification", "OpenID4VP", "eIDAS 2.0"],
-  authors: [{ name: "Synapsys" }],
-  creator: "Synapsys",
-  publisher: "Synapsys",
-  robots: {
-    index: true,
-    follow: true,
+  title: {
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
   },
+  description: siteConfig.description,
+  keywords: [
+    "EUDI Wallet",
+    "eIDAS 2.0",
+    "OpenID4VP",
+    "digital identity",
+    "verification",
+    "relying party",
+  ],
+  authors: [{ name: "Synapsys Team" }],
+  creator: "Synapsys",
   openGraph: {
     type: "website",
     locale: "en_US",
-    siteName: "Synapsys",
-    title: "Synapsys - EUDI Wallet Relying Party Dashboard",
-    description: "Enterprise-grade dashboard for EUDI wallet verification and management",
+    url: siteConfig.url,
+    title: siteConfig.name,
+    description: siteConfig.description,
+    siteName: siteConfig.name,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Synapsys - EUDI Wallet Relying Party Dashboard",
-    description: "Enterprise-grade dashboard for EUDI wallet verification and management",
+    title: siteConfig.name,
+    description: siteConfig.description,
   },
-};
+}
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${spaceGrotesk.variable}`}>
+      <body className="font-sans antialiased">{children}</body>
     </html>
-  );
+  )
 }
