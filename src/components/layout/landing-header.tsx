@@ -55,10 +55,15 @@ export function LandingHeader() {
             </a>
           ))}
           <a
-            href="https://docs.synapsys.io"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm font-medium text-gray-600 transition-colors hover:text-gray-800"
+            href="#get-started"
+            onClick={(e) => {
+              e.preventDefault()
+              const element = document.querySelector('#get-started')
+              if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+              }
+            }}
+            className="text-sm font-medium text-gray-600 transition-colors hover:text-gray-800 cursor-pointer"
           >
             Docs
           </a>
@@ -107,11 +112,16 @@ export function LandingHeader() {
               </a>
             ))}
             <a
-              href="https://docs.synapsys.io"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm font-medium text-gray-600"
-              onClick={() => setMobileMenuOpen(false)}
+              href="#get-started"
+              onClick={(e) => {
+                e.preventDefault()
+                const element = document.querySelector('#get-started')
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                }
+                setMobileMenuOpen(false)
+              }}
+              className="text-sm font-medium text-gray-600 cursor-pointer"
             >
               Docs
             </a>
