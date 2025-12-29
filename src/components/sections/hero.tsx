@@ -15,7 +15,7 @@ export function HeroSection() {
       <div className="container relative mx-auto max-w-7xl px-4">
         <div className="flex flex-col items-center text-center">
           {/* Badge */}
-          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-coral-200 bg-coral-50 px-4 py-1.5 text-sm font-medium text-coral-700">
+          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-coral-200 bg-coral-50 px-4 py-1.5 text-sm font-medium text-coral-700 cursor-glow hover-lift">
             <Zap className="h-4 w-4" />
             <span>eIDAS 2.0 Compliant</span>
           </div>
@@ -38,7 +38,7 @@ export function HeroSection() {
           <div className="flex flex-col gap-4 sm:flex-row">
             <Button
               size="lg"
-              className="gap-2 bg-gradient-to-r from-coral-400 to-amber-400 text-white hover:from-coral-500 hover:to-amber-500"
+              className="gap-2 bg-gradient-to-r from-coral-400 to-amber-400 text-white hover:from-coral-500 hover:to-amber-500 cursor-glow hover-lift"
               asChild
             >
               <Link href="/dashboard">
@@ -46,7 +46,7 @@ export function HeroSection() {
                 <ArrowRight className="h-5 w-5" />
               </Link>
             </Button>
-            <Button size="lg" variant="outline" asChild>
+            <Button size="lg" variant="outline" className="cursor-glow hover-lift" asChild>
               <Link href="/docs">View Documentation</Link>
             </Button>
           </div>

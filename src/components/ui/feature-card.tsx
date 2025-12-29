@@ -46,7 +46,7 @@ export function FeatureCard({
 
   return (
     <Card
-      className={`transition-all hover:card-shadow-hover ${colors.border}`}
+      className={`transition-all cursor-glow hover-lift hover:card-shadow-hover ${colors.border}`}
     >
       <CardHeader>
         <div className={`mb-3 inline-flex h-12 w-12 items-center justify-center rounded-lg ${colors.bg}`}>

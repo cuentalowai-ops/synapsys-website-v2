@@ -19,7 +19,7 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
       <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 transition-opacity hover:opacity-80">
+        <Link href="/" className="flex items-center gap-2 transition-opacity hover:opacity-80 cursor-glow">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-coral-400 to-amber-400">
             <Shield className="h-5 w-5 text-white" />
           </div>
@@ -36,7 +36,7 @@ export function Header() {
               href={item.href}
               target={item.external ? "_blank" : undefined}
               rel={item.external ? "noopener noreferrer" : undefined}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground cursor-glow"
             >
               {item.label}
             </Link>
@@ -45,12 +45,12 @@ export function Header() {
 
         {/* CTA Buttons - Desktop */}
         <div className="hidden items-center gap-3 md:flex">
-          <Button variant="ghost" size="sm" asChild>
+          <Button variant="ghost" size="sm" asChild className="cursor-glow">
             <Link href="/auth/login">Sign In</Link>
           </Button>
           <Button
             size="sm"
-            className="bg-gradient-to-r from-coral-400 to-amber-400 text-white hover:from-coral-500 hover:to-amber-500"
+            className="bg-gradient-to-r from-coral-400 to-amber-400 text-white hover:from-coral-500 hover:to-amber-500 cursor-glow hover-lift"
             asChild
           >
             <Link href="/dashboard">Get Started</Link>
@@ -60,7 +60,7 @@ export function Header() {
         {/* Mobile Menu Toggle */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden"
+          className="md:hidden cursor-glow"
           aria-label="Toggle menu"
         >
           {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -76,19 +76,19 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 target={item.external ? "_blank" : undefined}
-                className="text-sm font-medium text-muted-foreground"
+                className="text-sm font-medium text-muted-foreground cursor-glow"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {item.label}
               </Link>
             ))}
             <div className="flex flex-col gap-2 border-t pt-4">
-              <Button variant="outline" size="sm" className="w-full" asChild>
+              <Button variant="outline" size="sm" className="w-full cursor-glow" asChild>
                 <Link href="/auth/login">Sign In</Link>
               </Button>
               <Button
                 size="sm"
-                className="w-full bg-gradient-to-r from-coral-400 to-amber-400"
+                className="w-full bg-gradient-to-r from-coral-400 to-amber-400 cursor-glow"
                 asChild
               >
                 <Link href="/dashboard">Get Started</Link>

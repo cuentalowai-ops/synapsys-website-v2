@@ -140,10 +140,15 @@ const config: Config = {
           "0%, 100%": { opacity: "1" },
           "50%": { opacity: "0.5" },
         },
+        "cursor-follow": {
+          "0%": { transform: "translate(-50%, -50%) scale(1)" },
+          "100%": { transform: "translate(-50%, -50%) scale(1)" },
+        },
       },
       animation: {
         "float": "float 6s ease-in-out infinite",
         "pulse-glow": "pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "cursor-follow": "cursor-follow 0.1s ease-out",
       },
     },
   },

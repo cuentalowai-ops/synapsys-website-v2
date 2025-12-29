@@ -15,7 +15,7 @@ export function CTASection() {
           </p>
           <Button
             size="lg"
-            className="gap-2 bg-gradient-to-r from-coral-400 to-amber-400 text-white hover:from-coral-500 hover:to-amber-500"
+            className="gap-2 bg-gradient-to-r from-coral-400 to-amber-400 text-white hover:from-coral-500 hover:to-amber-500 cursor-glow hover-lift"
             asChild
           >
             <Link href="/auth/register">

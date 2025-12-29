@@ -48,7 +48,7 @@ export function Footer() {
         <div className="grid gap-8 md:grid-cols-5">
           {/* Brand Column */}
           <div className="md:col-span-1">
-            <Link href="/" className="mb-4 flex items-center gap-2">
+            <Link href="/" className="mb-4 flex items-center gap-2 cursor-glow">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-coral-400 to-amber-400">
                 <Shield className="h-5 w-5 text-white" />
               </div>
@@ -70,7 +70,7 @@ export function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                      className="text-sm text-muted-foreground transition-colors cursor-glow hover:text-foreground"
                     >
                       {link.label}
                     </Link>

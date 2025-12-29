@@ -47,7 +47,7 @@ export function ComplianceSection() {
           {compliances.map((item) => (
             <div
               key={item.name}
-              className={`rounded-xl border p-6 text-center transition-all hover:shadow-md ${item.color}`}
+              className={`rounded-xl border p-6 text-center transition-all cursor-glow hover-lift hover:shadow-md ${item.color}`}
             >
               <div className="mb-4 flex justify-center">
                 <CheckCircle className="h-8 w-8" />

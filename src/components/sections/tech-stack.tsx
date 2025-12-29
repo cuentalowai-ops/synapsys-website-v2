@@ -26,7 +26,7 @@ export function TechStackSection() {
           {techStack.map((tech) => (
             <div
               key={tech.name}
-              className="group rounded-lg border bg-white p-6 text-center transition-all hover:border-teal-300 hover:shadow-md"
+              className="group rounded-lg border bg-white p-6 text-center transition-all cursor-glow hover-lift hover:border-teal-300 hover:shadow-md"
             >
               <div className="mb-2 font-display text-lg font-semibold text-foreground group-hover:text-teal-600">
                 {tech.name}
