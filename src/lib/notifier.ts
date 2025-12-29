@@ -2,23 +2,24 @@ import https from 'https';
 
 interface NotifyPayload {
   status: 'success' | 'error' | 'warning';
-  title: string;
   message: string;
   metrics?: {
     latency?: number;
-    listenersNotified?: number;
     timestamp?: string;
   };
 }
 
+/**
+ * ZERO-KNOWLEDGE NOTIFIER
+ * ✅ GDPR Compliant: Solo metadatos operacionales
+ * ❌ NUNCA transmite PII a servicios externos
+ */
 export async function notifyTeam(payload: NotifyPayload): Promise<void> {
   const webhookUrl = process.env.SLACK_WEBHOOK_URL;
 
   if (!webhookUrl) {
-    console.log('📢 [NOTIFIER] No webhook configured. Using console output:');
-    console.log(`   Status: ${payload.status.toUpperCase()}`);
-    console.log(`   Title: ${payload.title}`);
-    console.log(`   Message: ${payload.message}`);
+    // ✅ Console-only (no external transmission)
+    console.log(`🔔 [${payload.status.toUpperCase()}] ${payload.message}`);
     if (payload.metrics) {
       console.log(`   Latency: ${payload.metrics.latency}ms`);
       console.log(`   Timestamp: ${payload.metrics.timestamp}`);
@@ -26,14 +27,15 @@ export async function notifyTeam(payload: NotifyPayload): Promise<void> {
     return;
   }
 
-  const slackMessage = {
-    text: payload.title,
+  // ✅ AUDITOR CHECK: Solo metadatos seguros
+  const sanitizedPayload = {
+    text: `🔔 ${payload.message}`,
     blocks: [
       {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `*${payload.title}*\n${payload.message}`,
+          text: `*${payload.status === 'success' ? '✅' : '❌'} Operation Status*\n${payload.message}`,
         },
       },
       ...(payload.metrics
@@ -43,15 +45,13 @@ export async function notifyTeam(payload: NotifyPayload): Promise<void> {
               fields: [
                 {
                   type: 'mrkdwn',
+                  // ✅ OK: Latency (no personal)
                   text: `*Latency:*\n${payload.metrics.latency}ms`,
                 },
                 {
                   type: 'mrkdwn',
-                  text: `*Listeners Notified:*\n${payload.metrics.listenersNotified || 0}`,
-                },
-                {
-                  type: 'mrkdwn',
-                  text: `*Timestamp:*\n${payload.metrics.timestamp || new Date().toISOString()}`,
+                  // ✅ OK: Timestamp (operational)
+                  text: `*Time:*\n${payload.metrics.timestamp}`,
                 },
               ],
             },
@@ -62,7 +62,7 @@ export async function notifyTeam(payload: NotifyPayload): Promise<void> {
         elements: [
           {
             type: 'mrkdwn',
-            text: `Status: *${payload.status}* | Source: SYNAPSYS`,
+            text: `🔐 SYNAPSYS | Zero-Knowledge Notification`,
           },
         ],
       },
@@ -70,8 +70,7 @@ export async function notifyTeam(payload: NotifyPayload): Promise<void> {
   };
 
   try {
-    const data = JSON.stringify(slackMessage);
-
+    const data = JSON.stringify(sanitizedPayload);
     const options = {
       hostname: new URL(webhookUrl).hostname,
       path: new URL(webhookUrl).pathname,
@@ -85,10 +84,10 @@ export async function notifyTeam(payload: NotifyPayload): Promise<void> {
     await new Promise<void>((resolve, reject) => {
       const req = https.request(options, (res) => {
         if (res.statusCode === 200) {
-          console.log('✅ Slack notification sent');
+          console.log('✅ Notification sent securely');
           resolve();
         } else {
-          reject(new Error(`Slack returned ${res.statusCode}`));
+          reject(new Error(`Webhook returned ${res.statusCode}`));
         }
       });
 
@@ -97,33 +96,29 @@ export async function notifyTeam(payload: NotifyPayload): Promise<void> {
       req.end();
     });
   } catch (error) {
-    console.error('⚠️ Failed to send notification:', error instanceof Error ? error.message : error);
+    console.error('⚠️ Notification failed (non-blocking):', 
+      error instanceof Error ? error.message : 'Unknown');
   }
 }
 
 export function notifySuccess(
-  title: string,
   message: string,
-  metrics?: NotifyPayload['metrics']
+  metrics?: { latency?: number; timestamp?: string }
 ): Promise<void> {
   return notifyTeam({
     status: 'success',
-    title,
     message,
     metrics,
   });
 }
 
 export function notifyError(
-  title: string,
   message: string,
-  metrics?: NotifyPayload['metrics']
+  metrics?: { latency?: number; timestamp?: string }
 ): Promise<void> {
   return notifyTeam({
     status: 'error',
-    title,
     message,
     metrics,
   });
 }
-

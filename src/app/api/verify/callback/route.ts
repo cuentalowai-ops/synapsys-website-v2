@@ -52,12 +52,11 @@ export async function POST(request: NextRequest) {
       console.log(`📤 [/api/verify/callback] Notified ${notified} listener(s)`);
 
       // Send webhook notification (async, no await to avoid blocking)
+      // ✅ GDPR: Solo metadatos, sin PII
       notifySuccess(
-        '✅ Verification Success',
-        `Session ${session_id.slice(0, 8)}... verified successfully`,
+        'Verification completed successfully',
         {
           latency,
-          listenersNotified: notified,
           timestamp: new Date().toISOString(),
         }
       ).catch(err => console.error('⚠️ Notification error:', err));
@@ -84,11 +83,10 @@ export async function POST(request: NextRequest) {
       });
 
       // Send webhook notification (async, no await to avoid blocking)
+      // ✅ GDPR: Solo metadatos, sin PII
       notifyError(
-        '❌ Verification Failed',
-        `Session ${session_id.slice(0, 8)}... failed: ${error || 'Verification failed'}`,
+        'Verification failed',
         {
-          listenersNotified: notified,
           timestamp: new Date().toISOString(),
         }
       ).catch(err => console.error('⚠️ Notification error:', err));

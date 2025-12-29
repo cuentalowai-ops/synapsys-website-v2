@@ -7,9 +7,13 @@ TOTAL_REQUESTS=100
 CONCURRENT=10
 RESULTS_FILE="load-test-results-$(date +%s).json"
 
+# ✅ AUDITOR FIX: User-Agent identifier
+LOAD_TEST_UA="Synapsys-LoadTest/1.0 (Internal Performance Testing)"
+
 echo "╔════════════════════════════════════════════════════════════╗"
 echo "║           LOAD TEST BLITZ - STRESS TESTING               ║"
 echo "║   $TOTAL_REQUESTS requests | $CONCURRENT concurrent                    ║"
+echo "║   User-Agent: $LOAD_TEST_UA                ║"
 echo "╚════════════════════════════════════════════════════════════╝"
 echo ""
 
@@ -28,9 +32,10 @@ run_test() {
   local iteration=$1
   local session_id=""
   
-  # Fase 1: Crear sesión
+  # ✅ AUDITOR FIX: Identificar como load test
   local init=$(curl -s -X POST "$SERVER/api/verify/start" \
     -H "Content-Type: application/json" \
+    -H "User-Agent: $LOAD_TEST_UA" \
     -d '{}')
   
   if command -v jq > /dev/null; then
@@ -44,12 +49,12 @@ run_test() {
     return 1
   fi
   
-  # Fase 2: Esperar
   sleep 0.1
   
-  # Fase 3: Callback
+  # ✅ AUDITOR FIX: Identificar callback también
   local callback=$(curl -s -w "\n%{http_code}" -X POST "$SERVER/api/verify/callback" \
     -H "Content-Type: application/json" \
+    -H "User-Agent: $LOAD_TEST_UA" \
     -d "{\"session_id\":\"$session_id\",\"state\":\"verified\",\"user_data\":{\"family_name\":\"Test\",\"given_name\":\"User\"}}")
   
   local http_code=$(echo "$callback" | tail -n 1)
@@ -58,15 +63,15 @@ run_test() {
     echo "OK"
     return 0
   else
-    echo "FAIL"
+    echo "FAIL (HTTP $http_code)"
     return 1
   fi
 }
 
 export -f run_test
 export SERVER
+export LOAD_TEST_UA
 
-# Ejecutar tests en paralelo
 echo "[2/4] 🔥 Ejecutando $TOTAL_REQUESTS tests..."
 echo ""
 
@@ -81,7 +86,6 @@ START_TIME=$(python3 -c "import time; print(int(time.time() * 1000))" 2>/dev/nul
 END_TIME=$(python3 -c "import time; print(int(time.time() * 1000))" 2>/dev/null || echo $(($(date +%s) * 1000)))
 DURATION=$((END_TIME - START_TIME))
 
-# Análisis
 echo ""
 echo "[3/4] 📊 Analizando resultados..."
 echo ""
@@ -111,7 +115,13 @@ fi
 echo ""
 echo "════════════════════════════════════════════════════════════"
 
-# Guardar JSON
+# ✅ AUDITOR FIX: Include metadata
+if command -v uuidgen > /dev/null; then
+  LOAD_TEST_ID=$(uuidgen)
+else
+  LOAD_TEST_ID=$(cat /dev/urandom | tr -dc 'a-f0-9' | fold -w 32 | head -n 1)
+fi
+
 if command -v bc > /dev/null; then
   RPS_JSON=$(echo "scale=2; $TOTAL_REQUESTS * 1000 / $DURATION" | bc)
 else
@@ -121,6 +131,7 @@ fi
 cat > "$RESULTS_FILE" << EOF
 {
   "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+  "loadTestId": "$LOAD_TEST_ID",
   "totalRequests": $TOTAL_REQUESTS,
   "concurrentLevel": $CONCURRENT,
   "success": $SUCCESS,
@@ -128,14 +139,15 @@ cat > "$RESULTS_FILE" << EOF
   "successRate": $SUCCESS_RATE,
   "totalDurationMs": $DURATION,
   "avgDurationMs": $((DURATION / TOTAL_REQUESTS)),
-  "requestsPerSecond": $RPS_JSON
+  "requestsPerSecond": $RPS_JSON,
+  "userAgent": "$LOAD_TEST_UA",
+  "purpose": "Internal performance testing - NIS2 compliance"
 }
 EOF
 
 echo "[4/4] 📁 Resultados guardados en: $RESULTS_FILE"
 echo ""
 
-# Criterios de éxito
 if [ $SUCCESS_RATE -ge 95 ]; then
   echo "🟢 BLITZ TEST PASSED (>95% success rate)"
   exit 0
@@ -143,4 +155,3 @@ else
   echo "🔴 BLITZ TEST FAILED (<95% success rate)"
   exit 1
 fi
-

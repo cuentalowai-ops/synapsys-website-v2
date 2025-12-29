@@ -33,24 +33,39 @@ jobs:
       - name: ✅ Run Unit Tests
         run: npm test 2>/dev/null || echo "⚠️ No tests configured yet"
 
-      - name: 🔥 Start Development Server
+      - name: 🔥 Start Development Server (Background)
         run: |
-          npm run dev &
-          sleep 3
-          echo "✅ Server started on :3000"
+          npm run dev > /tmp/server.log 2>&1 &
+          echo $! > /tmp/server.pid
+          echo "✅ Server process started (PID: $(cat /tmp/server.pid))"
         env:
           VERIFIER_DID: ${{ secrets.VERIFIER_DID || 'did:web:verifier.thesynapsys.io' }}
           API_BASE_URL: http://localhost:3000
           VERIFIER_PRIVATE_KEY: ${{ secrets.VERIFIER_PRIVATE_KEY || '{"kty":"EC","x":"p16XwDy4lQiq-eE7eWcSp5Yj204FKR2jQgLx-uFyqMY","y":"0FHsg20vj4kQ0wMZ_SpDZuPsq3xl0SRh5pxgDdrjEG4","crv":"P-256","d":"4x_kYmOGosZ4m6pnPq0GEi_9JXEjmrZA3hMXCxirB40","kid":"synapsys-verifier-key-1","use":"sig"}' }}
 
+      - name: ⏳ WAIT FOR SERVER READY (Critical Fix)
+        run: |
+          echo "⏳ Waiting for server to be ready..."
+          npx wait-on http://localhost:3000/api/health --timeout 30000
+          echo "✅ Server is ready!"
+
       - name: 🔥 SHOCK TEST E2E (CRITICAL)
         run: |
           bash ./scripts/shock-test-auto-FIXED.sh
-          if [ $? -eq 0 ]; then
+          TEST_RESULT=$?
+          
+          # Cleanup
+          if [ -f /tmp/server.pid ]; then
+            kill $(cat /tmp/server.pid) || true
+          fi
+          
+          if [ $TEST_RESULT -eq 0 ]; then
             echo "✅ SHOCK TEST PASSED"
             exit 0
           else
             echo "❌ SHOCK TEST FAILED"
+            echo "Server logs:"
+            cat /tmp/server.log || true
             exit 1
           fi
 
@@ -69,5 +84,6 @@ jobs:
 
       - name: ❌ Build Failed
         if: failure()
-        run: echo "🔴 PIPELINE FAILED - Check logs"
-
+        run: |
+          echo "🔴 PIPELINE FAILED - Check logs"
+          [ -f /tmp/server.log ] && echo "Server output:" && tail -50 /tmp/server.log
