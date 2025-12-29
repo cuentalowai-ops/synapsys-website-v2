@@ -3,90 +3,95 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 const features = [
   {
-    icon: Shield,
-    title: "eIDAS 2.0 Compliance",
-    description: "Fully compliant with EU Digital Identity Wallet regulations and Architecture Reference Framework (ARF 1.4.0).",
-    color: "coral",
-  },
-  {
     icon: Key,
     title: "OpenID4VP Protocol",
-    description: "Native support for OpenID for Verifiable Presentations with selective disclosure and credential validation.",
-    color: "amber",
+    description: "Integrated with synapsys-verifier for secure credential verification using the latest OpenID4VP standards.",
+    color: "teal",
+  },
+  {
+    icon: Shield,
+    title: "eIDAS 2.0 Compliance",
+    description: "Full compliance with European Digital Identity standards and ARF 1.4 requirements.",
+    color: "purple",
+  },
+  {
+    icon: Lock,
+    title: "Security First",
+    description: "GDPR, NIS2, and ISO 27001 compliant architecture with end-to-end encryption.",
+    color: "coral",
   },
   {
     icon: Wallet,
     title: "Multi-Wallet Support",
-    description: "Seamless integration with Gataca, iGrant.io, DIZME, and other EUDI-compliant wallet providers.",
-    color: "teal",
-  },
-  {
-    icon: Lock,
-    title: "Enterprise Security",
-    description: "ISO 27001 certified with NIS2 incident reporting, GDPR compliance, and comprehensive audit logging.",
-    color: "purple",
+    description: "Compatible with major EUDI wallet implementations across Europe.",
+    color: "amber",
   },
   {
     icon: Zap,
     title: "Real-time Verification",
-    description: "Instant credential verification with cryptographic proof validation, revocation checking, and trust framework integration.",
-    color: "purple",
+    description: "Sub-50ms verification response times with 99.9% uptime SLA.",
+    color: "teal",
   },
   {
     icon: Code,
     title: "Developer Friendly",
-    description: "RESTful API, comprehensive documentation, SDKs in multiple languages, and webhook support for easy integration.",
-    color: "coral",
+    description: "RESTful APIs with comprehensive documentation and SDKs for multiple languages.",
+    color: "purple",
   },
 ]
 
 const colorMap = {
   coral: {
     icon: "text-coral-600",
-    border: "border-coral-200 hover:border-coral-400 border-coral-blur border-coral-blur-hover",
-    bg: "bg-coral-50 bg-coral-blur",
+    border: "border-coral-200 hover:border-coral-500/50",
+    bg: "bg-coral-500/10",
+    glow: "shadow-lg shadow-coral-500/50",
   },
   amber: {
     icon: "text-amber-600",
-    border: "border-amber-200 hover:border-amber-400 blur-soft",
-    bg: "bg-amber-50 bg-amber-blur",
+    border: "border-amber-200 hover:border-amber-500/50",
+    bg: "bg-amber-500/10",
+    glow: "shadow-lg shadow-amber-500/50",
   },
   teal: {
     icon: "text-teal-600",
-    border: "border-teal-200 hover:border-teal-400",
-    bg: "bg-teal-50",
+    border: "border-teal-200 hover:border-teal-500/50",
+    bg: "bg-teal-500/10",
+    glow: "shadow-lg shadow-teal-500/50",
   },
   purple: {
     icon: "text-purple-600",
-    border: "border-purple-200 hover:border-purple-400",
-    bg: "bg-purple-50",
+    border: "border-purple-200 hover:border-purple-500/50",
+    bg: "bg-purple-500/10",
+    glow: "shadow-lg shadow-purple-500/50",
   },
 }
 
 export function FeaturesSection() {
   return (
-    <section id="features" className="bg-white py-12 sm:py-16 md:py-20 lg:py-28">
+    <section id="features" className="bg-white py-12 sm:py-16 md:py-20 lg:py-28 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
       <div className="container mx-auto px-4 sm:px-6">
         <div className="mb-12 text-center sm:mb-16">
-          <h2 className="mb-4 font-display text-3xl font-semibold leading-[1.2] tracking-[-0.01em] text-gradient-secondary sm:text-4xl md:text-5xl">
-            Enterprise Features
+          <h2 className="mb-4 font-display text-3xl font-semibold leading-[1.2] tracking-[-0.01em] text-gradient-hero sm:text-4xl md:text-5xl">
+            Platform Features
           </h2>
           <p className="mx-auto max-w-2xl text-base text-gray-700 sm:text-lg">
-            Production-ready verification platform with compliance and security built-in
+            Everything you need for EUDI wallet verification
           </p>
         </div>
 
         <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map((feature) => {
+          {features.map((feature, index) => {
             const Icon = feature.icon
             const colors = colorMap[feature.color as keyof typeof colorMap]
             return (
               <Card
                 key={feature.title}
-                className={`group cursor-pointer glass-card border-2 rounded-xl sm:rounded-2xl transition-all duration-300 hover-lift card-shadow-glow bg-white ${colors.border}`}
+                className={`group cursor-pointer bg-white/95 backdrop-blur-lg border border-white/10 rounded-xl sm:rounded-2xl transition-all duration-300 hover:bg-white/10 hover:scale-105 hover:-translate-y-2 hover:border-opacity-50 ${colors.border} ${colors.glow} animate-fade-in-up`}
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <CardHeader className="pb-4">
-                  <div className={`mb-4 inline-flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-lg sm:rounded-xl border-2 ${colors.bg} ${colors.border}`}>
+                  <div className={`mb-4 inline-flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-lg sm:rounded-xl p-4 ${colors.bg}`}>
                     <Icon className={`h-6 w-6 sm:h-7 sm:w-7 ${colors.icon}`} />
                   </div>
                   <CardTitle className="text-lg font-semibold text-gray-800 sm:text-xl">{feature.title}</CardTitle>

@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import { ArrowRight, Zap } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -50,14 +52,12 @@ export function HeroSection() {
                 <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1" />
               </Link>
             </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="px-6 py-4 text-base font-semibold border-2 border-teal-300/50 text-teal-700 hover:bg-teal-50 hover:border-teal-400 transition-all sm:px-8 sm:py-6 sm:text-lg"
-              asChild
+            <button
+              onClick={() => window.open("https://docs.synapsys.io", "_blank")}
+              className="px-6 py-4 text-base font-semibold border-2 border-teal-300/50 text-teal-700 hover:bg-teal-50 hover:border-teal-400 transition-all rounded-lg sm:px-8 sm:py-6 sm:text-lg"
             >
-              <Link href="/docs">View Documentation</Link>
-            </Button>
+              View Documentation
+            </button>
           </div>
 
           {/* Stats */}

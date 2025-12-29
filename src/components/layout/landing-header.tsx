@@ -12,9 +12,20 @@ export function LandingHeader() {
   const navItems = [
     { href: "#features", label: "Features" },
     { href: "#compliance", label: "Compliance" },
-    { href: "#tech", label: "Technology" },
-    { href: "https://docs.synapsys.io", label: "Docs", external: true },
+    { href: "#technology", label: "Technology" },
+    { href: "#get-started", label: "Get Started" },
   ]
+
+  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith("#")) {
+      e.preventDefault()
+      const element = document.querySelector(href)
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" })
+        setMobileMenuOpen(false)
+      }
+    }
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-coral-200/30 glass-white bg-white/95 backdrop-blur-sm">
@@ -34,22 +45,29 @@ export function LandingHeader() {
         {/* Desktop Navigation */}
         <nav className="hidden items-center gap-6 md:flex">
           {navItems.map((item) => (
-            <Link
+            <a
               key={item.href}
               href={item.href}
-              target={item.external ? "_blank" : undefined}
-              rel={item.external ? "noopener noreferrer" : undefined}
+              onClick={(e) => handleScroll(e, item.href)}
               className="text-sm font-medium text-gray-600 transition-colors hover:text-gray-800"
             >
               {item.label}
-            </Link>
+            </a>
           ))}
+          <a
+            href="https://docs.synapsys.io"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm font-medium text-gray-600 transition-colors hover:text-gray-800"
+          >
+            Docs
+          </a>
         </nav>
 
         {/* CTA Buttons - Desktop */}
         <div className="hidden items-center gap-3 md:flex">
           <Button variant="ghost" size="sm" asChild>
-            <Link href="/auth/login">Sign In</Link>
+            <Link href="/dashboard">Sign In</Link>
           </Button>
           <Button
             size="sm"
@@ -79,19 +97,27 @@ export function LandingHeader() {
         <div className="border-t bg-white px-4 py-4 md:hidden">
           <nav className="flex flex-col gap-4">
             {navItems.map((item) => (
-              <Link
+              <a
                 key={item.href}
                 href={item.href}
-                target={item.external ? "_blank" : undefined}
+                onClick={(e) => handleScroll(e, item.href)}
                 className="text-sm font-medium text-gray-600"
-                onClick={() => setMobileMenuOpen(false)}
               >
                 {item.label}
-              </Link>
+              </a>
             ))}
+            <a
+              href="https://docs.synapsys.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium text-gray-600"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Docs
+            </a>
             <div className="flex flex-col gap-2 border-t pt-4">
               <Button variant="outline" size="sm" className="w-full" asChild>
-                <Link href="/auth/login">Sign In</Link>
+                <Link href="/dashboard">Sign In</Link>
               </Button>
               <Button
                 size="sm"
