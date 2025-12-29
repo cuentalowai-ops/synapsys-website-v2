@@ -1,6 +1,22 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+  // Performance optimizations
+  reactStrictMode: true,
+  poweredByHeader: false,
+  compress: true,
+  
+  // Image optimization
+  images: {
+    formats: ['image/webp', 'image/avif'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
+  },
+
   // Security headers
   async headers() {
     return [
@@ -13,7 +29,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Strict-Transport-Security',
-            value: 'max-age=63072000; includeSubDomains; preload'
+            value: 'max-age=31536000; includeSubDomains'
           },
           {
             key: 'X-Frame-Options',
@@ -24,41 +40,16 @@ const nextConfig: NextConfig = {
             value: 'nosniff'
           },
           {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block'
-          },
-          {
             key: 'Referrer-Policy',
             value: 'strict-origin-when-cross-origin'
           },
           {
-            key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=()'
+            key: 'Content-Security-Policy',
+            value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline';"
           }
         ],
       },
     ];
-  },
-  
-  // React strict mode
-  reactStrictMode: true,
-  
-  // TypeScript
-  typescript: {
-    ignoreBuildErrors: false,
-  },
-  
-  // ESLint
-  eslint: {
-    ignoreDuringBuilds: false,
-  },
-  
-  // Output
-  output: 'standalone',
-  
-  // Experimental features
-  experimental: {
-    optimizePackageImports: ['@/components/ui'],
   },
 };
 
