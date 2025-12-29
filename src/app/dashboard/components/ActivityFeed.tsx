@@ -50,8 +50,8 @@ const activities = [
 
 export function ActivityFeed() {
   return (
-    <div className="rounded-xl border bg-white dark:bg-gray-800 p-6">
-      <h3 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
+    <div className="glass-card rounded-2xl border-2 border-purple-200/30 bg-white dark:bg-gray-800 p-6 card-shadow">
+      <h3 className="mb-4 text-lg font-semibold text-gradient-secondary dark:text-gray-100">
         Recent Activity
       </h3>
       <div className="space-y-2">

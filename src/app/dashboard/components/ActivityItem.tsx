@@ -12,9 +12,9 @@ interface ActivityItemProps {
 }
 
 const colorMap = {
-  coral: "bg-coral-50 dark:bg-coral-900/20 text-coral-600 dark:text-coral-400",
+  coral: "bg-coral-50 dark:bg-coral-900/20 bg-coral-blur text-coral-600 dark:text-coral-400 blur-soft",
   teal: "bg-teal-50 dark:bg-teal-900/20 text-teal-600 dark:text-teal-400",
-  amber: "bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400",
+  amber: "bg-amber-50 dark:bg-amber-900/20 bg-amber-blur text-amber-600 dark:text-amber-400 blur-soft",
   purple: "bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400",
   green: "bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400",
 }
@@ -37,7 +37,7 @@ export function ActivityItem({
         <Icon className="h-5 w-5" />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+        <p className="text-sm font-medium text-gray-800 dark:text-gray-100">
           {title}
         </p>
         <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">

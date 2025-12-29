@@ -13,9 +13,9 @@ interface StatCardProps {
 
 const colorMap = {
   coral: {
-    bg: "bg-coral-50 dark:bg-coral-900/20",
+    bg: "bg-coral-50 dark:bg-coral-900/20 bg-coral-blur",
     icon: "text-coral-600 dark:text-coral-400",
-    border: "border-coral-200 dark:border-coral-800",
+    border: "border-coral-200 dark:border-coral-800 border-coral-blur",
   },
   teal: {
     bg: "bg-teal-50 dark:bg-teal-900/20",
@@ -23,9 +23,9 @@ const colorMap = {
     border: "border-teal-200 dark:border-teal-800",
   },
   amber: {
-    bg: "bg-amber-50 dark:bg-amber-900/20",
+    bg: "bg-amber-50 dark:bg-amber-900/20 bg-amber-blur",
     icon: "text-amber-600 dark:text-amber-400",
-    border: "border-amber-200 dark:border-amber-800",
+    border: "border-amber-200 dark:border-amber-800 blur-soft",
   },
   purple: {
     bg: "bg-purple-50 dark:bg-purple-900/20",
@@ -41,9 +41,10 @@ export function StatCard({ title, value, change, icon: Icon, color }: StatCardPr
   return (
     <div
       className={cn(
-        "rounded-xl border p-6 transition-all hover:shadow-md",
+        "glass-card rounded-2xl border-2 p-6 transition-all duration-300 hover-lift card-shadow-glow",
         colors.bg,
-        colors.border
+        colors.border,
+        (color === "coral" || color === "amber") && "blur-soft"
       )}
     >
       <div className="flex items-start justify-between">
@@ -51,7 +52,7 @@ export function StatCard({ title, value, change, icon: Icon, color }: StatCardPr
           <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
             {title}
           </p>
-          <p className="mt-2 text-2xl font-bold text-gray-900 dark:text-gray-100">
+          <p className="mt-2 text-2xl font-bold text-gray-800 dark:text-gray-100">
             {value}
           </p>
           <div className="mt-3 flex items-center gap-1 text-sm">

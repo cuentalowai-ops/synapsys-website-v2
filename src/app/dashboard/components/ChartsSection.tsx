@@ -25,16 +25,16 @@ export function ChartsSection() {
   return (
     <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
       {/* Line Chart */}
-      <div className="rounded-xl border bg-white dark:bg-gray-800 p-6">
-        <h3 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
+      <div className="glass-card rounded-2xl border-2 border-coral-200/30 bg-white dark:bg-gray-800 p-6 card-shadow border-coral-blur blur-soft">
+        <h3 className="mb-4 text-lg font-semibold text-gradient-teal dark:text-gray-100">
           Weekly Verification Trend
         </h3>
         <LineChart data={weeklyData} />
       </div>
 
       {/* Donut Chart */}
-      <div className="rounded-xl border bg-white dark:bg-gray-800 p-6">
-        <h3 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
+      <div className="glass-card rounded-2xl border-2 border-teal-200/30 bg-white dark:bg-gray-800 p-6 card-shadow">
+        <h3 className="mb-4 text-lg font-semibold text-gradient-teal dark:text-gray-100">
           Country Distribution
         </h3>
         <DonutChart data={countryData} />

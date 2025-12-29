@@ -5,7 +5,7 @@ import { useTheme } from "@/contexts/theme-context"
 import { UserDropdown } from "./UserDropdown"
 
 export function Header() {
-  const { theme = "light", toggleTheme } = useTheme() || { theme: "light", toggleTheme: () => {} }
+  const { theme, toggleTheme } = useTheme()
 
   return (
     <header className="sticky top-0 z-30 h-16 border-b bg-white/95 dark:bg-gray-900/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
@@ -14,7 +14,7 @@ export function Header() {
         <div className="hidden md:flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
           <span>Dashboard</span>
           <span>/</span>
-          <span className="text-gray-900 dark:text-gray-100">Overview</span>
+          <span className="text-gray-800 dark:text-gray-100">Overview</span>
         </div>
 
         {/* Search */}

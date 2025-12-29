@@ -1,10 +1,10 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 import {
   LayoutDashboard,
-  Shield,
   FileCheck,
   Users,
   Settings,
@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils"
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/dashboard/verifications", label: "Verifications", icon: FileCheck },
-  { href: "/dashboard/wallets", label: "Wallets", icon: Shield },
+  { href: "/dashboard/wallets", label: "Wallets", icon: FileCheck },
   { href: "/dashboard/users", label: "Users", icon: Users },
   { href: "/dashboard/analytics", label: "Analytics", icon: BarChart3 },
   { href: "/dashboard/settings", label: "Settings", icon: Settings },
@@ -51,12 +51,16 @@ export function Sidebar() {
         )}
       >
         {/* Logo */}
-        <div className="flex h-16 items-center gap-3 border-b px-6">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-coral-400 to-amber-400">
-            <Shield className="h-5 w-5 text-white" />
-          </div>
-          <span className="font-display text-lg font-bold">SYNAPSYS</span>
-        </div>
+        <Link href="/" className="flex h-20 items-center justify-center border-b px-6">
+          <Image
+            src="/images/synapsys-logo.png"
+            alt="Synapsys"
+            width={200}
+            height={72}
+            className="h-20 w-auto object-contain"
+            priority
+          />
+        </Link>
 
         {/* Navigation */}
         <nav className="flex-1 space-y-1 p-4">
@@ -71,7 +75,7 @@ export function Sidebar() {
                 className={cn(
                   "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
                   isActive
-                    ? "bg-coral-50 dark:bg-coral-900/20 text-coral-700 dark:text-coral-400"
+                    ? "bg-coral-50 dark:bg-coral-900/20 bg-coral-blur text-coral-700 dark:text-coral-400 blur-soft"
                     : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
                 )}
               >

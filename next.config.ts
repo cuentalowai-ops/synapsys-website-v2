@@ -48,9 +48,15 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: false,
   },
   
-  // ESLint
-  eslint: {
-    ignoreDuringBuilds: false,
+  // Image optimization
+  images: {
+    formats: ['image/webp', 'image/avif'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
   },
   
   // Output
