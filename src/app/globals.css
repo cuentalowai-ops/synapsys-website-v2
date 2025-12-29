@@ -72,7 +72,6 @@
   }
   body {
     @apply bg-background text-foreground;
-    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23FFB088" stroke-width="2"><path d="M6 4l14 14M20 4l-14 14"/></svg>') 12 12, auto;
   }
 }
 
@@ -109,11 +108,6 @@
   .hover-lift {
     @apply transition-all duration-300 hover:scale-105 hover:-translate-y-1;
   }
-}
-
-/* Custom cursor for interactive elements */
-button, a, [role="button"] {
-  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%23FFB088"><circle cx="12" cy="12" r="8"/></svg>') 12 12, pointer !important;
 }
 
 /* Smooth scroll behavior */
