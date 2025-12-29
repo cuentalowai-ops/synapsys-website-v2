@@ -1,60 +1,54 @@
-import type { Metadata } from "next"
-import { Inter, Space_Grotesk } from "next/font/google"
-import "./globals.css"
-import { siteConfig } from "@/config/site"
-import { Providers } from "@/components/providers/theme-provider"
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
 
-const inter = Inter({
+const geistSans = Geist({
+  variable: "--font-geist-sans",
   subsets: ["latin"],
-  variable: "--font-inter",
-})
+});
 
-const spaceGrotesk = Space_Grotesk({
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
-  variable: "--font-space-grotesk",
-})
+});
 
 export const metadata: Metadata = {
-  title: {
-    default: siteConfig.name,
-    template: `%s | ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
-  keywords: [
-    "EUDI Wallet",
-    "eIDAS 2.0",
-    "OpenID4VP",
-    "digital identity",
-    "verification",
-    "relying party",
-  ],
-  authors: [{ name: "Synapsys Team" }],
+  title: "Synapsys - EUDI Wallet Relying Party Dashboard",
+  description: "Enterprise-grade dashboard for EUDI wallet verification and management. Compliant with eIDAS 2.0, GDPR, NIS2, and ISO 27001.",
+  keywords: ["EUDI", "wallet", "verification", "OpenID4VP", "eIDAS 2.0"],
+  authors: [{ name: "Synapsys" }],
   creator: "Synapsys",
+  publisher: "Synapsys",
+  robots: {
+    index: true,
+    follow: true,
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: siteConfig.url,
-    title: siteConfig.name,
-    description: siteConfig.description,
-    siteName: siteConfig.name,
+    siteName: "Synapsys",
+    title: "Synapsys - EUDI Wallet Relying Party Dashboard",
+    description: "Enterprise-grade dashboard for EUDI wallet verification and management",
   },
   twitter: {
     card: "summary_large_image",
-    title: siteConfig.name,
-    description: siteConfig.description,
+    title: "Synapsys - EUDI Wallet Relying Party Dashboard",
+    description: "Enterprise-grade dashboard for EUDI wallet verification and management",
   },
-}
+};
 
 export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode
-}) {
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${spaceGrotesk.variable}`}>
-      <body className="font-sans antialiased bg-white dark:bg-gray-950">
-        <Providers>{children}</Providers>
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        {children}
       </body>
     </html>
-  )
+  );
 }
