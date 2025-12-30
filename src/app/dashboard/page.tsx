@@ -215,22 +215,22 @@ export default function Dashboard() {
   if (!mounted) return null
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black font-sans">
-      {/* ===== HEADER BRUTALISTA ===== */}
-      <header className="sticky top-0 z-50 bg-white dark:bg-black border-b border-gray-300 dark:border-gray-700">
+    <div className="min-h-screen bg-void text-text-primary font-sans relative">
+      {/* ===== HEADER LUMINOUS VOID ===== */}
+      <header className="sticky top-0 z-50 bg-void/95 backdrop-blur-sm border-b border-structure">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-blue-600 flex items-center justify-center text-white font-bold text-sm border border-blue-700">
+            <div className="w-8 h-8 border-2 border-truth flex items-center justify-center text-truth font-mono text-xs">
               S
             </div>
-            <span className="text-xl font-bold text-gray-900 dark:text-white">
+            <span className="text-xl font-display font-bold uppercase tracking-tight">
               SYNAPSYS
             </span>
           </div>
 
           <button
             onClick={toggleTheme}
-            className="p-2 border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-900"
+            className="p-2 border border-structure hover:border-truth hover:text-truth transition-colors min-h-touch min-w-touch"
             aria-label="Toggle dark mode"
           >
             {theme === 'dark' ? '☀️' : '🌙'}
@@ -242,15 +242,15 @@ export default function Dashboard() {
       <main className="max-w-7xl mx-auto">
         {/* Status Banner - Success */}
         {status === 'success' && (
-          <div className="border-b border-gray-300 dark:border-gray-700 bg-white dark:bg-black p-4 flex items-center gap-4">
-            <div className="w-8 h-8 border-2 border-green-600 flex items-center justify-center text-green-600 text-sm font-mono">
+          <div className="border-b border-structure bg-void p-4 flex items-center gap-4">
+            <div className="w-8 h-8 border-2 border-truth flex items-center justify-center text-truth text-xs font-mono">
               OK
             </div>
             <div className="flex-1">
-              <h3 className="font-sans font-bold text-gray-900 dark:text-white">
+              <h3 className="font-sans font-bold text-text-primary">
                 Identidad Verificada
               </h3>
-              <p className="text-sm font-sans text-gray-600 dark:text-gray-400">
+              <p className="text-sm font-sans text-text-muted">
                 Las credenciales han sido validadas criptográficamente.
               </p>
             </div>
@@ -259,20 +259,20 @@ export default function Dashboard() {
 
         {/* Status Banner - Error */}
         {status === 'error' && (
-          <div className="border-b border-gray-300 dark:border-gray-700 bg-white dark:bg-black p-4 flex items-center gap-4">
-            <div className="w-8 h-8 border-2 border-red-600 flex items-center justify-center text-red-600 text-sm font-mono">
+          <div className="border-b border-structure bg-void p-4 flex items-center gap-4">
+            <div className="w-8 h-8 border-2 border-red-500 flex items-center justify-center text-red-400 text-xs font-mono">
               ERR
             </div>
             <div className="flex-1">
-              <h3 className="font-sans font-bold text-gray-900 dark:text-white">
+              <h3 className="font-sans font-bold text-text-primary">
                 Error de Verificación
               </h3>
-              <p className="text-sm font-sans text-gray-600 dark:text-gray-400">
+              <p className="text-sm font-sans text-text-muted">
                 {errorMsg}
               </p>
               <button
                 onClick={() => startVerification()}
-                className="mt-2 text-sm font-sans text-blue-600 hover:underline"
+                className="mt-2 text-sm font-sans text-truth hover:underline"
               >
                 Reintentar
               </button>
@@ -281,12 +281,12 @@ export default function Dashboard() {
         )}
 
         {/* Layout Grid: Retícula Estricta */}
-        <div className="grid grid-cols-12 border-b border-gray-300 dark:border-gray-700">
+        <div className="grid grid-cols-12 border-b border-structure">
           {/* ===== LEFT COLUMN: PROGRESS & SECURITY ===== */}
-          <div className="col-span-12 lg:col-span-5 border-r border-gray-300 dark:border-gray-700">
+          <div className="col-span-12 lg:col-span-5 border-r border-structure">
             {/* Progress Section */}
-            <div className="border-b border-gray-300 dark:border-gray-700 p-6">
-              <h2 className="text-lg font-sans font-bold text-gray-900 dark:text-white mb-6">
+            <div className="border-b border-structure p-6">
+              <h2 className="text-lg font-sans font-bold text-text-primary mb-6">
                 Proceso de Verificación
               </h2>
               <VerificationProgress
@@ -296,16 +296,16 @@ export default function Dashboard() {
             </div>
 
             {/* Security Badges - Estilo Código */}
-            <div className="border-b border-gray-300 dark:border-gray-700 p-6 bg-gray-50 dark:bg-gray-900">
-              <h3 className="text-sm font-sans font-bold text-gray-900 dark:text-white mb-4">COMPLIANCE</h3>
+            <div className="border-b border-structure p-6 bg-void-surface/50">
+              <h3 className="text-sm font-sans font-bold text-text-primary mb-4">COMPLIANCE</h3>
               <div className="space-y-2">
-                <div className="bg-gray-100 dark:bg-gray-800 px-2 py-1 text-xs font-mono text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-700">
+                <div className="bg-truth/10 px-2 py-1 text-xs font-mono text-truth border border-truth/20">
                   NIS2_COMPLIANT
                 </div>
-                <div className="bg-gray-100 dark:bg-gray-800 px-2 py-1 text-xs font-mono text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-700">
+                <div className="bg-truth/10 px-2 py-1 text-xs font-mono text-truth border border-truth/20">
                   ISO_27001
                 </div>
-                <div className="bg-gray-100 dark:bg-gray-800 px-2 py-1 text-xs font-mono text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-700">
+                <div className="bg-truth/10 px-2 py-1 text-xs font-mono text-truth border border-truth/20">
                   GDPR_READY
                 </div>
               </div>
@@ -314,11 +314,11 @@ export default function Dashboard() {
             {/* Session Info - Estilo Técnico */}
             {sessionId && (
               <div className="p-6">
-                <h3 className="text-xs font-mono text-gray-500 dark:text-gray-400 mb-2 uppercase">
+                <h3 className="text-xs font-mono text-text-muted mb-2 uppercase">
                   SESSION_ID
                 </h3>
-                <div className="bg-gray-50 dark:bg-gray-900 p-3 border border-gray-300 dark:border-gray-700">
-                  <p className="text-xs font-mono text-gray-900 dark:text-white break-all">
+                <div className="bg-void-surface/50 p-3 border border-structure">
+                  <p className="text-xs font-mono text-text-primary break-all">
                     {sessionId}
                   </p>
                 </div>
@@ -328,15 +328,15 @@ export default function Dashboard() {
 
           {/* ===== RIGHT COLUMN: QR SCANNING ===== */}
           <div className="col-span-12 lg:col-span-7">
-            <div className="p-6 min-h-[500px] flex flex-col items-center justify-center border-b border-gray-300 dark:border-gray-700">
+            <div className="p-6 min-h-[500px] flex flex-col items-center justify-center border-b border-structure">
               {/* LOADING STATE */}
               {status === 'loading' && (
                 <div className="flex flex-col items-center gap-4">
-                  <div className="w-12 h-12 border-2 border-blue-600 border-t-transparent animate-spin"></div>
-                  <p className="text-sm font-sans text-gray-600 dark:text-gray-400">
+                  <div className="w-12 h-12 border-2 border-truth border-t-transparent animate-spin"></div>
+                  <p className="text-sm font-sans text-text-muted">
                     Iniciando motor criptográfico...
                   </p>
-                  <p className="text-xs font-mono text-gray-500 dark:text-gray-500">
+                  <p className="text-xs font-mono text-text-muted">
                     CONNECTING_TO_BACKEND
                   </p>
                 </div>
@@ -346,17 +346,17 @@ export default function Dashboard() {
               {status === 'pending' && qrLink && (
                 <div className="w-full flex flex-col items-center gap-6">
                   <div className="text-center">
-                    <h2 className="text-xl font-sans font-bold text-gray-900 dark:text-white mb-2">
+                    <h2 className="text-xl font-sans font-bold text-text-primary mb-2">
                       Escanea para Verificar
                     </h2>
-                    <p className="text-sm font-sans text-gray-600 dark:text-gray-400 max-w-sm mx-auto">
+                    <p className="text-sm font-sans text-text-muted max-w-sm mx-auto">
                       Utiliza tu EUDI Wallet compatible para escanear este código QR
                       único y vinculado a esta sesión.
                     </p>
                   </div>
 
                   {/* QR Code - Marco Técnico */}
-                  <div className="border-2 border-gray-300 dark:border-gray-700 p-4 bg-white dark:bg-black">
+                  <div className="border-2 border-structure p-4 bg-void">
                     <QRCodeSVG
                       value={qrLink}
                       size={256}
@@ -368,13 +368,13 @@ export default function Dashboard() {
                   </div>
 
                   {/* Session indicator - Estilo Técnico */}
-                  <div className="flex items-center gap-2 text-xs font-mono text-gray-500 dark:text-gray-400">
-                    <span className="w-2 h-2 bg-blue-600"></span>
+                  <div className="flex items-center gap-2 text-xs font-mono text-text-muted">
+                    <span className="w-2 h-2 bg-truth animate-pulse"></span>
                     <span>SESSION_ACTIVE: {sessionId.slice(0, 16)}...</span>
                   </div>
 
                   {/* Waiting message */}
-                  <p className="text-xs font-mono text-gray-500 dark:text-gray-400 text-center">
+                  <p className="text-xs font-mono text-text-muted text-center">
                     WAITING_FOR_VERIFICATION...
                   </p>
                 </div>
@@ -384,62 +384,62 @@ export default function Dashboard() {
               {status === 'success' && userData && (
                 <div className="text-center w-full gap-6 flex flex-col items-center">
                   {/* Success Indicator */}
-                  <div className="w-16 h-16 border-2 border-green-600 flex items-center justify-center text-green-600 text-2xl font-mono">
+                  <div className="w-16 h-16 border-2 border-truth flex items-center justify-center text-truth text-2xl font-mono glow-truth">
                     ✓
                   </div>
 
                   {/* Success Message */}
                   <div>
-                    <h2 className="text-2xl font-sans font-bold text-gray-900 dark:text-white mb-2">
+                    <h2 className="text-2xl font-sans font-bold text-text-primary mb-2">
                       {userData.given_name || 'Usuario'} Verificado
                     </h2>
-                    <p className="text-sm font-sans text-gray-600 dark:text-gray-400">
+                    <p className="text-sm font-sans text-text-muted">
                       Todos los controles de seguridad superados correctamente.
                     </p>
                   </div>
 
                   {/* User Data - Estilo Técnico */}
-                  <div className="bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 p-6 w-full max-w-sm">
+                  <div className="bg-void-surface/50 border border-structure p-6 w-full max-w-sm">
                     <div className="space-y-3">
                       {userData.given_name && (
-                        <div className="flex justify-between items-center border-b border-gray-300 dark:border-gray-700 pb-2">
-                          <span className="text-xs font-mono text-gray-500 dark:text-gray-400 uppercase">
+                        <div className="flex justify-between items-center border-b border-structure pb-2">
+                          <span className="text-xs font-mono text-text-muted uppercase">
                             NAME
                           </span>
-                          <span className="text-sm font-sans text-gray-900 dark:text-white">
+                          <span className="text-sm font-sans text-text-primary">
                             {userData.given_name} {userData.family_name || ''}
                           </span>
                         </div>
                       )}
 
                       {userData.nationality && (
-                        <div className="flex justify-between items-center border-b border-gray-300 dark:border-gray-700 pb-2">
-                          <span className="text-xs font-mono text-gray-500 dark:text-gray-400 uppercase">
+                        <div className="flex justify-between items-center border-b border-structure pb-2">
+                          <span className="text-xs font-mono text-text-muted uppercase">
                             NATIONALITY
                           </span>
-                          <span className="text-sm font-sans text-gray-900 dark:text-white">
+                          <span className="text-sm font-sans text-text-primary">
                             {userData.nationality}
                           </span>
                         </div>
                       )}
 
                       {userData.document_number && (
-                        <div className="flex justify-between items-center border-b border-gray-300 dark:border-gray-700 pb-2">
-                          <span className="text-xs font-mono text-gray-500 dark:text-gray-400 uppercase">
+                        <div className="flex justify-between items-center border-b border-structure pb-2">
+                          <span className="text-xs font-mono text-text-muted uppercase">
                             DOCUMENT
                           </span>
-                          <span className="text-xs font-mono text-gray-900 dark:text-white">
+                          <span className="text-xs font-mono text-text-primary">
                             {userData.document_number.slice(-6)}...
                           </span>
                         </div>
                       )}
 
                       {/* Trust Score */}
-                      <div className="pt-2 border-t-2 border-gray-300 dark:border-gray-700 flex justify-between items-center">
-                        <span className="text-xs font-mono text-gray-500 dark:text-gray-400 uppercase">
+                      <div className="pt-2 border-t-2 border-structure flex justify-between items-center">
+                        <span className="text-xs font-mono text-text-muted uppercase">
                           TRUST_SCORE
                         </span>
-                        <span className="text-lg font-mono text-blue-600">
+                        <span className="text-lg font-mono text-truth">
                           98/100
                         </span>
                       </div>
@@ -456,13 +456,13 @@ export default function Dashboard() {
                         setUserData(null)
                         startVerification()
                       }}
-                      className="flex-1 px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white border border-blue-700 font-sans text-sm"
+                      className="flex-1 px-6 py-2 bg-truth text-void border border-truth hover:glow-truth hover:bg-truth-500 font-sans text-sm min-h-touch"
                     >
                       Nueva Verificación
                     </button>
                     <button
                       onClick={() => (window.location.href = '/')}
-                      className="flex-1 px-6 py-2 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-900 font-sans text-sm"
+                      className="flex-1 px-6 py-2 border border-structure text-text-primary hover:border-truth hover:text-truth font-sans text-sm min-h-touch"
                     >
                       Volver
                     </button>
@@ -474,8 +474,8 @@ export default function Dashboard() {
         </div>
 
         {/* ===== INFO FOOTER - Estilo Técnico ===== */}
-        <div className="border-b border-gray-300 dark:border-gray-700 p-6">
-          <h3 className="text-lg font-sans font-bold text-gray-900 dark:text-white mb-6">
+        <div className="border-b border-structure p-6">
+          <h3 className="text-lg font-sans font-bold text-text-primary mb-6">
             ¿Por qué confiar en SYNAPSYS?
           </h3>
           <div className="grid md:grid-cols-3 gap-6">
@@ -495,12 +495,12 @@ export default function Dashboard() {
             ].map((item, i) => (
               <div
                 key={i}
-                className="border border-gray-300 dark:border-gray-700 p-4"
+                className="border border-structure p-4"
               >
-                <h4 className="font-sans font-semibold text-gray-900 dark:text-white mb-2">
+                <h4 className="font-sans font-semibold text-text-primary mb-2">
                   {item.title}
                 </h4>
-                <p className="text-sm font-sans text-gray-600 dark:text-gray-400">
+                <p className="text-sm font-sans text-text-muted">
                   {item.desc}
                 </p>
               </div>
@@ -509,9 +509,9 @@ export default function Dashboard() {
         </div>
       </main>
 
-      {/* ===== FOOTER BRUTALISTA ===== */}
-      <footer className="border-t border-gray-300 dark:border-gray-700 py-6">
-        <div className="max-w-7xl mx-auto px-4 text-center text-xs font-mono text-gray-500 dark:text-gray-400">
+      {/* ===== FOOTER LUMINOUS VOID ===== */}
+      <footer className="border-t border-structure py-6">
+        <div className="max-w-7xl mx-auto px-4 text-center text-xs font-mono text-text-muted">
           <p>© 2025 SYNAPSYS. Privacidad garantizada bajo GDPR, NIS2, ISO 27001.</p>
           <p className="mt-2">
             SSE-Powered Real-Time Verification | eIDAS 2.0 Compliant

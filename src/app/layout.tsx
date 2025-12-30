@@ -12,7 +12,15 @@ const inter = Inter({
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-space-grotesk",
+  weight: ["400", "500", "600", "700"],
 })
+
+// JetBrains Mono para datos técnicos
+const jetbrainsMono = {
+  variable: "--font-mono",
+  style: "normal",
+  weight: "400",
+}
 
 export const metadata: Metadata = {
   title: {
@@ -52,7 +60,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${spaceGrotesk.variable}`}>
-      <body className="font-sans antialiased bg-white dark:bg-gray-950">
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            :root {
+              --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+            }
+          `
+        }} />
+      </head>
+      <body className="font-sans antialiased relative">
         <Providers>{children}</Providers>
       </body>
     </html>

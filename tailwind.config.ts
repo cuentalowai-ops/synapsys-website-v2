@@ -8,181 +8,106 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
     extend: {
       colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        
-        // Colores Primarios (de la paleta del logo)
-        coral: {
-          50: "#fff7f3",
-          100: "#ffede4",
-          200: "#ffd4bd",
-          300: "#FFB088",
-          400: "#ff8f52",
-          500: "#ff7a3d",
-          600: "#ff6b2e",
-          700: "#e55c24",
-          800: "#cc4d1f",
-          900: "#993a17",
+        // LUMINOUS VOID v2 Palette
+        void: {
+          DEFAULT: "#02040A", // Abismo azulado
+          surface: "#0B1221", // Paneles opcionales
         },
-        
-        amber: {
-          50: "#fffbeb",
-          100: "#fff3c6",
-          200: "#ffe89a",
-          300: "#FFD97A",
-          400: "#ffc043",
-          500: "#F5B041",
-          600: "#e69d2e",
-          700: "#d68a1f",
-          800: "#b36e17",
-          900: "#8a530f",
+        structure: {
+          DEFAULT: "rgba(255, 255, 255, 0.08)", // Bordes finos
         },
-        
-        teal: {
-          50: "#f0fafa",
-          100: "#d9f2f2",
-          200: "#b3e5e6",
-          300: "#5BC0BE",
-          400: "#4AABAB",
-          500: "#2d9fa0",
-          600: "#248b8c",
-          700: "#1e7577",
-          800: "#165f61",
-          900: "#0f4a4b",
+        truth: {
+          DEFAULT: "#38BDF8", // Cyan 400 - Verificación, Éxito, Activo
+          400: "#38BDF8",
+          500: "#0EA5E9",
+          600: "#0284C7",
         },
-        
-        // Colores Secundarios
-        magenta: {
-          50: "#fdf4f7",
-          100: "#fbe8ef",
-          200: "#f7d1df",
-          300: "#C06080",
-          400: "#9B4D7A",
-          500: "#8b4470",
-          600: "#7a3b63",
-          700: "#6b3356",
-          800: "#5c2b49",
-          900: "#4d243d",
+        warning: {
+          DEFAULT: "#FACC15", // Amber 400 - Procesando, Alerta
+          400: "#FACC15",
+          500: "#EAB308",
+          600: "#D97706",
         },
-        
-        purple: {
-          50: "#f5f3f7",
-          100: "#ebe7ef",
-          200: "#d7cfdf",
-          300: "#7B68B0",
-          400: "#6B5B9A",
-          500: "#5d4e89",
-          600: "#514478",
-          700: "#463a67",
-          800: "#3b3156",
-          900: "#302845",
+        text: {
+          primary: "#E2E8F0", // Slate 200
+          muted: "#64748B", // Slate 500
         },
-
+        // Mantener compatibilidad con shadcn
+        border: "rgba(255, 255, 255, 0.08)",
+        input: "rgba(255, 255, 255, 0.08)",
+        ring: "#38BDF8",
+        background: "#02040A",
+        foreground: "#E2E8F0",
         primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT: "#38BDF8",
+          foreground: "#02040A",
         },
         secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
+          DEFAULT: "#0B1221",
+          foreground: "#E2E8F0",
         },
         muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+          DEFAULT: "#0B1221",
+          foreground: "#64748B",
         },
         accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
+          DEFAULT: "#38BDF8",
+          foreground: "#02040A",
         },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
+        destructive: {
+          DEFAULT: "#EF4444",
+          foreground: "#E2E8F0",
         },
         card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+          DEFAULT: "transparent",
+          foreground: "#E2E8F0",
         },
-        trust: {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          500: '#1e40af',
-          600: '#1e3a8a',
-          700: '#1e40af',
-          800: '#1e3a8a',
-          900: '#0c2340',
-        },
-        secure: {
-          50: '#f0fdf4',
-          500: '#065f46',
-          600: '#047857',
-          700: '#065f46',
+        popover: {
+          DEFAULT: "#0B1221",
+          foreground: "#E2E8F0",
         },
       },
       fontFamily: {
-        sans: ["var(--font-inter)"],
-        display: ["var(--font-space-grotesk)"],
-        mono: ["var(--font-mono)", "Fira Code", "monospace"],
-        inter: ["var(--font-inter)", "Inter", "sans-serif"],
+        sans: ["var(--font-inter)", "Inter", "sans-serif"],
+        display: ["var(--font-space-grotesk)", "Space Grotesk", "sans-serif"],
+        mono: ["var(--font-mono)", "JetBrains Mono", "Fira Code", "monospace"],
       },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+      fontSize: {
+        // Fluid Typography con clamp()
+        "fluid-hero": "clamp(2rem, 5vw, 4.5rem)", // Mobile: 2rem, Desktop: 4.5rem
+        "fluid-h1": "clamp(1.75rem, 4vw, 3rem)",
+        "fluid-h2": "clamp(1.5rem, 3vw, 2.25rem)",
+        "fluid-h3": "clamp(1.25rem, 2.5vw, 1.875rem)",
+        "fluid-body": "clamp(0.875rem, 1.5vw, 1rem)",
+      },
+      boxShadow: {
+        "neon-cyan": "0 0 20px rgba(56, 189, 248, 0.2)",
+        "neon-cyan-lg": "0 0 40px rgba(56, 189, 248, 0.3)",
+        "neon-amber": "0 0 20px rgba(250, 204, 21, 0.2)",
       },
       keyframes: {
-        "float": {
-          "0%, 100%": { transform: "translateY(0px)" },
-          "50%": { transform: "translateY(-20px)" },
+        "grid-pulse": {
+          "0%, 100%": { opacity: "0.03" },
+          "50%": { opacity: "0.08" },
         },
-        "pulse-glow": {
-          "0%, 100%": { opacity: "1" },
-          "50%": { opacity: "0.5" },
+        "glow-pulse": {
+          "0%, 100%": { boxShadow: "0 0 20px rgba(56, 189, 248, 0.2)" },
+          "50%": { boxShadow: "0 0 40px rgba(56, 189, 248, 0.4)" },
         },
-        "scanning": {
-          "0%": { left: "-100%" },
-          "100%": { left: "200%" },
-        },
-        "pulse-grid": {
-          "0%, 100%": { opacity: "0.1" },
-          "50%": { opacity: "0.3" },
-        },
-        "pulse-border": {
-          "0%, 100%": { boxShadow: "0 0 0 0 rgba(59, 130, 246, 0.7)" },
-          "50%": { boxShadow: "0 0 0 10px rgba(59, 130, 246, 0)" },
-        },
-        "slide-in": {
-          from: { transform: "translateX(-100%)", opacity: "0" },
-          to: { transform: "translateX(0)", opacity: "1" },
-        },
-        "fade-in": {
-          from: { opacity: "0" },
-          to: { opacity: "1" },
+        "scan-line": {
+          "0%": { transform: "translateY(-100%)" },
+          "100%": { transform: "translateY(100vh)" },
         },
       },
       animation: {
-        "float": "float 5s ease-in-out infinite",
-        "pulse-glow": "pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-        "scanning": "scanning 2s linear infinite",
-        "pulse-grid": "pulse-grid 3s ease-in-out infinite",
-        "pulse-border": "pulse-border 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-        "slide-in": "slide-in 300ms ease-out",
-        "fade-in": "fade-in 200ms ease-out",
+        "grid-pulse": "grid-pulse 4s ease-in-out infinite",
+        "glow-pulse": "glow-pulse 2s ease-in-out infinite",
+        "scan-line": "scan-line 3s linear infinite",
+      },
+      spacing: {
+        "touch": "44px", // Touch target mínimo (Apple)
       },
     },
   },
