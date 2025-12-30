@@ -71,8 +71,7 @@ jobs:
 
       - name: 📊 Upload Test Reports
         if: always()
-        uses: actions/upload-artifact@v3
-        with:
+      uses: actions/upload-artifact@v4        with:
           name: shock-test-reports
           path: |
             .reports/
