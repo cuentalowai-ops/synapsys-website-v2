@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import { useTheme } from '@/contexts/theme-context'
-import { PremiumCard } from '@/components/PremiumCard'
+import { DataCard } from '@/components/ui/DataCard'
 import { VerificationProgress } from '@/components/VerificationProgress'
 import { QRCodeSVG } from 'qrcode.react'
 
@@ -215,7 +215,7 @@ export default function Dashboard() {
   if (!mounted) return null
 
   return (
-    <div className="min-h-screen bg-void text-text-primary font-sans relative">
+    <div className="min-h-screen bg-void text-text-primary font-sans relative selection:bg-truth/30">
       {/* ===== HEADER LUMINOUS VOID ===== */}
       <header className="sticky top-0 z-50 bg-void/95 backdrop-blur-sm border-b border-structure">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
@@ -230,7 +230,7 @@ export default function Dashboard() {
 
           <button
             onClick={toggleTheme}
-            className="p-2 border border-structure hover:border-truth hover:text-truth transition-colors min-h-touch min-w-touch"
+            className="p-2 border border-structure hover:border-truth hover:text-truth transition-colors h-12 w-12"
             aria-label="Toggle dark mode"
           >
             {theme === 'dark' ? '☀️' : '🌙'}
@@ -238,8 +238,8 @@ export default function Dashboard() {
         </div>
       </header>
 
-      {/* ===== MAIN CONTENT - RETÍCULA ESTRICTA ===== */}
-      <main className="max-w-7xl mx-auto">
+      {/* ===== MAIN CONTENT - GRID BRUTALISTA ===== */}
+      <main className="max-w-7xl mx-auto border-l border-r border-structure">
         {/* Status Banner - Success */}
         {status === 'success' && (
           <div className="border-b border-structure bg-void p-4 flex items-center gap-4">
@@ -272,7 +272,7 @@ export default function Dashboard() {
               </p>
               <button
                 onClick={() => startVerification()}
-                className="mt-2 text-sm font-sans text-truth hover:underline"
+                className="mt-2 px-4 py-2 text-sm font-sans text-truth border border-truth/30 hover:border-truth hover:bg-truth/10 h-12"
               >
                 Reintentar
               </button>
@@ -281,13 +281,13 @@ export default function Dashboard() {
         )}
 
         {/* Layout Grid: Retícula Estricta */}
-        <div className="grid grid-cols-12 border-b border-structure">
+        <div className="grid grid-cols-1 md:grid-cols-12 border-b border-structure">
           {/* ===== LEFT COLUMN: PROGRESS & SECURITY ===== */}
-          <div className="col-span-12 lg:col-span-5 border-r border-structure">
+          <div className="col-span-1 md:col-span-5 border-b md:border-b-0 md:border-r border-structure">
             {/* Progress Section */}
             <div className="border-b border-structure p-6">
-              <h2 className="text-lg font-sans font-bold text-text-primary mb-6">
-                Proceso de Verificación
+              <h2 className="text-lg font-display font-bold uppercase tracking-widest text-text-primary mb-6">
+                PROCESO DE VERIFICACIÓN
               </h2>
               <VerificationProgress
                 steps={steps}
@@ -327,7 +327,7 @@ export default function Dashboard() {
           </div>
 
           {/* ===== RIGHT COLUMN: QR SCANNING ===== */}
-          <div className="col-span-12 lg:col-span-7">
+          <div className="col-span-1 md:col-span-7">
             <div className="p-6 min-h-[500px] flex flex-col items-center justify-center border-b border-structure">
               {/* LOADING STATE */}
               {status === 'loading' && (
@@ -356,7 +356,7 @@ export default function Dashboard() {
                   </div>
 
                   {/* QR Code - Marco Técnico */}
-                  <div className="border-2 border-structure p-4 bg-void">
+                  <div className="border-2 border-truth/30 p-4 bg-void">
                     <QRCodeSVG
                       value={qrLink}
                       size={256}
@@ -447,7 +447,7 @@ export default function Dashboard() {
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="flex gap-3 w-full max-w-sm">
+                  <div className="flex flex-col sm:flex-row gap-3 w-full max-w-sm">
                     <button
                       onClick={() => {
                         setStatus('idle')
@@ -456,13 +456,13 @@ export default function Dashboard() {
                         setUserData(null)
                         startVerification()
                       }}
-                      className="flex-1 px-6 py-2 bg-truth text-void border border-truth hover:glow-truth hover:bg-truth-500 font-sans text-sm min-h-touch"
+                      className="flex-1 px-6 py-3 bg-truth text-void border border-truth hover:glow-truth hover:bg-truth-500 font-sans text-sm h-12"
                     >
                       Nueva Verificación
                     </button>
                     <button
                       onClick={() => (window.location.href = '/')}
-                      className="flex-1 px-6 py-2 border border-structure text-text-primary hover:border-truth hover:text-truth font-sans text-sm min-h-touch"
+                      className="flex-1 px-6 py-3 border border-structure text-text-primary hover:border-truth hover:text-truth font-sans text-sm h-12"
                     >
                       Volver
                     </button>
@@ -475,35 +475,32 @@ export default function Dashboard() {
 
         {/* ===== INFO FOOTER - Estilo Técnico ===== */}
         <div className="border-b border-structure p-6">
-          <h3 className="text-lg font-sans font-bold text-text-primary mb-6">
-            ¿Por qué confiar en SYNAPSYS?
+          <h3 className="text-lg font-display font-bold uppercase tracking-widest text-text-primary mb-6">
+            ¿POR QUÉ CONFIAR EN SYNAPSYS?
           </h3>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-structure">
             {[
               {
-                title: 'Seguridad Máxima',
-                desc: 'Encriptación end-to-end con protocolos bancarios',
+                title: 'SEGURIDAD MÁXIMA',
+                desc: 'ENCRYPTION END-TO-END // 2048-BIT RSA & ECC',
               },
               {
-                title: 'Ultra rápido',
-                desc: 'Verificación completa en menos de 2 segundos',
+                title: 'ULTRA RÁPIDO',
+                desc: 'VERIFICATION COMPLETE IN &lt; 2S // EDGE COMPUTING',
               },
               {
-                title: 'Cumplimiento Legal',
-                desc: 'Certificado eIDAS 2.0, NIS2 e ISO 27001',
+                title: 'CUMPLIMIENTO LEGAL',
+                desc: 'CERTIFIED EIDAS 2.0 // NIS2 // ISO 27001',
               },
             ].map((item, i) => (
-              <div
-                key={i}
-                className="border border-structure p-4"
-              >
-                <h4 className="font-sans font-semibold text-text-primary mb-2">
+              <DataCard key={i} border={i < 2 ? 'r' : 'none'}>
+                <h4 className="font-display font-semibold uppercase tracking-wide text-text-primary mb-2 text-sm">
                   {item.title}
                 </h4>
-                <p className="text-sm font-sans text-text-muted">
+                <p className="text-xs font-mono text-text-muted">
                   {item.desc}
                 </p>
-              </div>
+              </DataCard>
             ))}
           </div>
         </div>

@@ -42,7 +42,8 @@ export function TechButton({
     className
   )
 
-  if (asChild && href) {
+  // Si hay href, renderizar como Link
+  if (href) {
     return (
       <Link href={href} className={classes}>
         {children}
