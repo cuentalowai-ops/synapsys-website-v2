@@ -215,10 +215,10 @@ export default function Dashboard() {
   if (!mounted) return null
 
   return (
-    <div className="min-h-screen bg-void text-text-primary font-sans relative selection:bg-truth/30">
+    <div className="min-h-screen bg-void text-text-primary font-sans relative selection:bg-truth/30 overflow-x-hidden">
       {/* ===== HEADER LUMINOUS VOID ===== */}
       <header className="sticky top-0 z-50 bg-void/95 backdrop-blur-sm border-b border-structure">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 md:px-12 lg:px-24 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 border-2 border-truth flex items-center justify-center text-truth font-mono text-xs">
               S
@@ -355,8 +355,9 @@ export default function Dashboard() {
                     </p>
                   </div>
 
-                  {/* QR Code - Marco Técnico */}
-                  <div className="border-2 border-truth/30 p-4 bg-void">
+                  {/* QR Code - Cuadrado de Luz Perfecto */}
+                  <div className="relative border border-truth/30 p-6 bg-void">
+                    <div className="absolute inset-0 border border-truth/20"></div>
                     <QRCodeSVG
                       value={qrLink}
                       size={256}

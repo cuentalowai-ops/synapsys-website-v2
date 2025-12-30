@@ -62,9 +62,18 @@
 }
 
 @layer utilities {
-  /* Typography Utilities */
+  /* Typography Utilities - Math-based Fluid */
   .text-hero {
-    font-size: clamp(2rem, 5vw, 4.5rem);
+    font-size: clamp(2.5rem, 5vw + 1rem, 6rem);
+    font-family: var(--font-space-grotesk), sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  .text-fluid-h1 {
+    font-size: clamp(2.5rem, 5vw + 1rem, 6rem);
     font-family: var(--font-space-grotesk), sans-serif;
     font-weight: 700;
     text-transform: uppercase;

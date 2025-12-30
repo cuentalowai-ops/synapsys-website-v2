@@ -102,7 +102,7 @@ function DataStream() {
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-void text-text-primary relative">
+    <div className="min-h-screen bg-void text-text-primary relative overflow-x-hidden">
       {/* Header Brutalista */}
       <header className="sticky top-0 z-50 border-b border-structure bg-void/95 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
@@ -135,7 +135,7 @@ export default function HomePage() {
 
       <main className="relative z-10">
         {/* HERO SECTION */}
-        <section className="border-b border-structure py-12 md:py-24 px-4 sm:px-6 lg:px-8">
+        <section className="border-b border-structure py-12 md:py-24 px-4 md:px-12 lg:px-24">
           <div className="max-w-7xl mx-auto">
             <div className="grid md:grid-cols-12 gap-8">
               {/* Left: Headline + CTA */}
@@ -144,18 +144,19 @@ export default function HomePage() {
                   <StatusBadge status="active" className="mb-6">
                     PRODUCTION_READY
                   </StatusBadge>
-                  <h1 className="text-hero text-text-primary mb-6">
-                    THE TRUST PROTOCOL<br />
-                    FOR EUROPE
+                  <h1 className="text-fluid-h1 text-text-primary mb-6">
+                    DECENTRALIZED TRUST<br />
+                    INFRASTRUCTURE
                   </h1>
                   <p className="text-fluid-body text-text-muted max-w-2xl mb-8">
-                    ASYNCHRONOUS VERIFICATION ENGINE // 2048-BIT RSA & ECC ENCRYPTION // 
-                    DIRECT PEERING, NO MIDDLEMAN // LATENCY &lt; 50MS VIA EDGE COMPUTING
+                    OpenID4VP compliant engine. Zero-knowledge proofs. &lt;50ms latency.
                   </p>
-                  <TechButton href="/dashboard" size="lg" className="min-w-[200px]">
-                    INITIATE SEQUENCE
-                    <ArrowRight className="ml-2 h-4 w-4 inline" />
-                  </TechButton>
+                  <Link href="/dashboard">
+                    <TechButton size="lg" className="min-w-[200px] h-12">
+                      INITIATE SEQUENCE
+                      <ArrowRight className="ml-2 h-4 w-4 inline" />
+                    </TechButton>
+                  </Link>
                 </div>
               </div>
 
@@ -181,72 +182,69 @@ export default function HomePage() {
         </section>
 
         {/* TECHNOLOGY SECTION */}
-        <section id="technology" className="border-b border-structure py-12 md:py-24 px-4 sm:px-6 lg:px-8">
+        <section id="technology" className="border-b border-structure py-12 md:py-24 px-4 md:px-12 lg:px-24">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-fluid-h1 font-display uppercase tracking-tight mb-12 text-text-primary">
               TECHNOLOGY
             </h2>
             
-            <div className="grid md:grid-cols-3 gap-0 border border-structure">
-              {/* Card 1: OID4VP Protocol */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 border border-structure">
+              {/* Card 1: Protocol */}
               <DataCard border="r">
                 <div className="tech-container mb-4">
                   <Shield className="h-6 w-6 text-truth" />
                 </div>
                 <h3 className="text-fluid-h3 font-display uppercase mb-4 text-text-primary">
-                  OID4VP PROTOCOL
+                  PROTOCOL
                 </h3>
                 <p className="text-fluid-body text-text-muted mb-4">
-                  OpenID for Verifiable Presentations. Direct peering, no middleman.
-                  Selective disclosure via Presentation Definition (EUDI ARF 1.4 compatible).
+                  Native OID4VP implementation supporting ISO mDL formats.
                 </p>
                 <div className="space-y-2">
                   <div className="data-display">
                     <span className="text-truth">PROTOCOL:</span> OID4VP 1.0
                   </div>
                   <div className="data-display">
-                    <span className="text-truth">ENCRYPTION:</span> ECC P-256
+                    <span className="text-truth">FORMAT:</span> ISO mDL
                   </div>
                 </div>
               </DataCard>
 
-              {/* Card 2: Zero-Knowledge */}
+              {/* Card 2: Privacy */}
               <DataCard border="r">
                 <div className="tech-container mb-4">
                   <Lock className="h-6 w-6 text-truth" />
                 </div>
                 <h3 className="text-fluid-h3 font-display uppercase mb-4 text-text-primary">
-                  ZERO-KNOWLEDGE
+                  PRIVACY
                 </h3>
                 <p className="text-fluid-body text-text-muted mb-4">
-                  Cryptographic proofs ensuring data minimization under GDPR Art. 5.
-                  Verifier receives only required claims, never raw credentials.
+                  GDPR Article 5 compliant by design. No PII storage on edge nodes.
                 </p>
                 <div className="space-y-2">
                   <div className="data-display">
                     <span className="text-truth">COMPLIANCE:</span> GDPR Art. 5
                   </div>
                   <div className="data-display">
-                    <span className="text-truth">PROOF TYPE:</span> ZK-SNARK
+                    <span className="text-truth">STORAGE:</span> Zero PII
                   </div>
                 </div>
               </DataCard>
 
-              {/* Card 3: High Frequency */}
+              {/* Card 3: Architecture */}
               <DataCard>
                 <div className="tech-container mb-4">
                   <Zap className="h-6 w-6 text-truth" />
                 </div>
                 <h3 className="text-fluid-h3 font-display uppercase mb-4 text-text-primary">
-                  HIGH FREQUENCY
+                  ARCHITECTURE
                 </h3>
                 <p className="text-fluid-body text-text-muted mb-4">
-                  Latency &lt; 50ms via Edge Computing. Redis KV for session persistence.
-                  Server-Sent Events (SSE) for real-time updates.
+                  Serverless Edge Runtime backed by Redis KV.
                 </p>
                 <div className="space-y-2">
                   <div className="data-display">
-                    <span className="text-truth">LATENCY:</span> &lt; 50ms
+                    <span className="text-truth">RUNTIME:</span> Serverless Edge
                   </div>
                   <div className="data-display">
                     <span className="text-truth">STORAGE:</span> Redis KV
@@ -258,7 +256,7 @@ export default function HomePage() {
         </section>
 
         {/* TRUST SECTION */}
-        <section id="trust" className="border-b border-structure py-12 md:py-24 px-4 sm:px-6 lg:px-8">
+        <section id="trust" className="border-b border-structure py-12 md:py-24 px-4 md:px-12 lg:px-24">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-fluid-h1 font-display uppercase tracking-tight mb-12 text-text-primary">
               TRUST
@@ -309,7 +307,7 @@ export default function HomePage() {
         </section>
 
         {/* CTA SECTION */}
-        <section className="py-12 md:py-24 px-4 sm:px-6 lg:px-8">
+        <section className="py-12 md:py-24 px-4 md:px-12 lg:px-24">
           <div className="max-w-4xl mx-auto text-center border border-structure p-12">
             <h2 className="text-fluid-h1 font-display uppercase tracking-tight mb-6 text-text-primary">
               READY TO DEPLOY?
@@ -326,7 +324,7 @@ export default function HomePage() {
       </main>
 
       {/* FOOTER BRUTALISTA */}
-      <footer className="border-t border-structure py-8 px-4 sm:px-6 lg:px-8">
+      <footer className="border-t border-structure py-8 px-4 md:px-12 lg:px-24">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-3 gap-8 border-b border-structure pb-8 mb-8">
             <div>
