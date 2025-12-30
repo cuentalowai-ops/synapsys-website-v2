@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
 
     // Crear sesión en SessionStore para SSE
     const expiresIn = 5 * 60 * 1000; // 5 minutos
-    sessionStore.createSession(requestData.session_id, expiresIn);
+    await sessionStore.createSession(requestData.session_id, expiresIn);
 
     console.log('✅ Authorization request generated:', requestData.session_id);
 
