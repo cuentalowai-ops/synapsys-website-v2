@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
+import Link from 'next/link'
 import { useTheme } from '@/contexts/theme-context'
 import { DataCard } from '@/components/ui/DataCard'
 import { VerificationProgress } from '@/components/VerificationProgress'
@@ -216,17 +217,29 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-void text-text-primary font-sans relative selection:bg-truth/30 overflow-x-hidden">
-      {/* ===== HEADER LUMINOUS VOID ===== */}
-      <header className="sticky top-0 z-50 bg-void/95 backdrop-blur-sm border-b border-structure">
-        <div className="max-w-7xl mx-auto px-4 md:px-12 lg:px-24 py-4 flex items-center justify-between">
+      {/* ===== HEADER LUMINOUS VOID (Idéntico a Landing) ===== */}
+      <header className="sticky top-0 z-50 border-b border-structure bg-void/95 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 border-2 border-truth flex items-center justify-center text-truth font-mono text-xs">
               S
             </div>
-            <span className="text-xl font-display font-bold uppercase tracking-tight">
+            <span className="text-lg font-display font-bold uppercase tracking-tight">
               SYNAPSYS
             </span>
           </div>
+
+          <nav className="hidden md:flex items-center gap-6">
+            <a href="/#technology" className="text-data text-text-muted hover:text-truth transition-colors">
+              TECHNOLOGY
+            </a>
+            <a href="/#trust" className="text-data text-text-muted hover:text-truth transition-colors">
+              TRUST
+            </a>
+            <Link href="/dashboard" className="text-data text-text-primary hover:text-truth transition-colors">
+              DASHBOARD
+            </Link>
+          </nav>
 
           <button
             onClick={toggleTheme}
@@ -239,7 +252,8 @@ export default function Dashboard() {
       </header>
 
       {/* ===== MAIN CONTENT - GRID BRUTALISTA ===== */}
-      <main className="max-w-7xl mx-auto border-l border-r border-structure">
+      <main className="relative z-10">
+        <div className="max-w-7xl mx-auto px-4 md:px-12 lg:px-24">
         {/* Status Banner - Success */}
         {status === 'success' && (
           <div className="border-b border-structure bg-void p-4 flex items-center gap-4">
@@ -281,9 +295,10 @@ export default function Dashboard() {
         )}
 
         {/* Layout Grid: Retícula Estricta */}
-        <div className="grid grid-cols-1 md:grid-cols-12 border-b border-structure">
-          {/* ===== LEFT COLUMN: PROGRESS & SECURITY ===== */}
-          <div className="col-span-1 md:col-span-5 border-b md:border-b-0 md:border-r border-structure">
+        <section className="border-b border-structure py-12 md:py-24">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-0 border border-structure">
+            {/* ===== LEFT COLUMN: PROGRESS & SECURITY ===== */}
+            <div className="col-span-1 md:col-span-5 border-b md:border-b-0 md:border-r border-structure">
             {/* Progress Section */}
             <div className="border-b border-structure p-6">
               <h2 className="text-lg font-display font-bold uppercase tracking-widest text-text-primary mb-6">
@@ -324,10 +339,10 @@ export default function Dashboard() {
                 </div>
               </div>
             )}
-          </div>
+            </div>
 
-          {/* ===== RIGHT COLUMN: QR SCANNING ===== */}
-          <div className="col-span-1 md:col-span-7">
+            {/* ===== RIGHT COLUMN: QR SCANNING ===== */}
+            <div className="col-span-1 md:col-span-7">
             <div className="p-6 min-h-[500px] flex flex-col items-center justify-center border-b border-structure">
               {/* LOADING STATE */}
               {status === 'loading' && (
@@ -472,10 +487,11 @@ export default function Dashboard() {
               )}
             </div>
           </div>
-        </div>
+          </div>
+        </section>
 
         {/* ===== INFO FOOTER - Estilo Técnico ===== */}
-        <div className="border-b border-structure p-6">
+        <section className="border-b border-structure py-12 md:py-24">
           <h3 className="text-lg font-display font-bold uppercase tracking-widest text-text-primary mb-6">
             ¿POR QUÉ CONFIAR EN SYNAPSYS?
           </h3>
@@ -504,16 +520,44 @@ export default function Dashboard() {
               </DataCard>
             ))}
           </div>
+        </section>
         </div>
       </main>
 
-      {/* ===== FOOTER LUMINOUS VOID ===== */}
-      <footer className="border-t border-structure py-6">
-        <div className="max-w-7xl mx-auto px-4 text-center text-xs font-mono text-text-muted">
-          <p>© 2025 SYNAPSYS. Privacidad garantizada bajo GDPR, NIS2, ISO 27001.</p>
-          <p className="mt-2">
-            SSE-Powered Real-Time Verification | eIDAS 2.0 Compliant
-          </p>
+      {/* ===== FOOTER LUMINOUS VOID (Idéntico a Landing) ===== */}
+      <footer className="border-t border-structure py-8 px-4 md:px-12 lg:px-24">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 border-b border-structure pb-8 mb-8">
+            <div>
+              <h4 className="text-data text-text-primary uppercase mb-4">SYSTEM</h4>
+              <ul className="space-y-2">
+                <li><a href="/#technology" className="text-data text-text-muted hover:text-truth">TECHNOLOGY</a></li>
+                <li><a href="/#trust" className="text-data text-text-muted hover:text-truth">TRUST</a></li>
+                <li><Link href="/dashboard" className="text-data text-text-muted hover:text-truth">DASHBOARD</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-data text-text-primary uppercase mb-4">COMPLIANCE</h4>
+              <ul className="space-y-2">
+                <li className="text-data text-text-muted">GDPR Art. 5</li>
+                <li className="text-data text-text-muted">eIDAS 2.0</li>
+                <li className="text-data text-text-muted">NIS2</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-data text-text-primary uppercase mb-4">STATUS</h4>
+              <div className="space-y-2">
+                <div className="text-data text-text-muted text-xs">
+                  UPTIME: 99.9%
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="text-center">
+            <p className="text-data text-text-muted text-xs">
+              © 2025 SYNAPSYS // THE TRUST PROTOCOL FOR EUROPE // SSE-POWERED REAL-TIME VERIFICATION
+            </p>
+          </div>
         </div>
       </footer>
     </div>
