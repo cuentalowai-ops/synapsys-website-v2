@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { useTheme } from '@/contexts/theme-context'
-import { DataCard } from '@/components/ui/DataCard'
+import { GlassCard } from '@/components/ui/GlassCard'
 import { VerificationProgress } from '@/components/VerificationProgress'
 import { QRCodeSVG } from 'qrcode.react'
 
@@ -256,51 +256,55 @@ export default function Dashboard() {
         <div className="max-w-7xl mx-auto px-4 md:px-12 lg:px-24">
         {/* Status Banner - Success */}
         {status === 'success' && (
-          <div className="border-b border-structure bg-void p-4 flex items-center gap-4">
-            <div className="w-8 h-8 border-2 border-truth flex items-center justify-center text-truth text-xs font-mono">
-              OK
+          <GlassCard border="none" className="mb-6">
+            <div className="p-4 flex items-center gap-4">
+              <div className="w-8 h-8 border-2 border-truth flex items-center justify-center text-truth text-xs font-mono glow-truth">
+                OK
+              </div>
+              <div className="flex-1">
+                <h3 className="font-sans font-bold text-text-primary">
+                  Identidad Verificada
+                </h3>
+                <p className="text-sm font-sans text-text-muted">
+                  Las credenciales han sido validadas criptográficamente.
+                </p>
+              </div>
             </div>
-            <div className="flex-1">
-              <h3 className="font-sans font-bold text-text-primary">
-                Identidad Verificada
-              </h3>
-              <p className="text-sm font-sans text-text-muted">
-                Las credenciales han sido validadas criptográficamente.
-              </p>
-            </div>
-          </div>
+          </GlassCard>
         )}
 
         {/* Status Banner - Error */}
         {status === 'error' && (
-          <div className="border-b border-structure bg-void p-4 flex items-center gap-4">
-            <div className="w-8 h-8 border-2 border-red-500 flex items-center justify-center text-red-400 text-xs font-mono">
-              ERR
+          <GlassCard border="none" className="mb-6">
+            <div className="p-4 flex items-center gap-4">
+              <div className="w-8 h-8 border-2 border-red-500 flex items-center justify-center text-red-400 text-xs font-mono">
+                ERR
+              </div>
+              <div className="flex-1">
+                <h3 className="font-sans font-bold text-text-primary">
+                  Error de Verificación
+                </h3>
+                <p className="text-sm font-sans text-text-muted">
+                  {errorMsg}
+                </p>
+                <button
+                  onClick={() => startVerification()}
+                  className="mt-2 px-4 py-2 text-sm font-sans text-truth border border-truth/30 hover:border-truth hover:bg-truth/10 h-12 rounded-lg transition-all"
+                >
+                  Reintentar
+                </button>
+              </div>
             </div>
-            <div className="flex-1">
-              <h3 className="font-sans font-bold text-text-primary">
-                Error de Verificación
-              </h3>
-              <p className="text-sm font-sans text-text-muted">
-                {errorMsg}
-              </p>
-              <button
-                onClick={() => startVerification()}
-                className="mt-2 px-4 py-2 text-sm font-sans text-truth border border-truth/30 hover:border-truth hover:bg-truth/10 h-12"
-              >
-                Reintentar
-              </button>
-            </div>
-          </div>
+          </GlassCard>
         )}
 
         {/* Layout Grid: Retícula Estricta */}
         <section className="border-b border-structure py-12 md:py-24">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-0 border border-structure">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
             {/* ===== LEFT COLUMN: PROGRESS & SECURITY ===== */}
-            <div className="col-span-1 md:col-span-5 border-b md:border-b-0 md:border-r border-structure">
+            <div className="col-span-1 md:col-span-5 space-y-4">
             {/* Progress Section */}
-            <div className="border-b border-structure p-6">
+            <GlassCard border="none" className="p-6">
               <h2 className="text-lg font-display font-bold uppercase tracking-widest text-text-primary mb-6">
                 PROCESO DE VERIFICACIÓN
               </h2>
@@ -308,42 +312,42 @@ export default function Dashboard() {
                 steps={steps}
                 currentStep={currentStepIndex >= 0 ? currentStepIndex : 0}
               />
-            </div>
+            </GlassCard>
 
             {/* Security Badges - Estilo Código */}
-            <div className="border-b border-structure p-6 bg-void-surface/50">
+            <GlassCard border="none" className="p-6">
               <h3 className="text-sm font-sans font-bold text-text-primary mb-4">COMPLIANCE</h3>
               <div className="space-y-2">
-                <div className="bg-truth/10 px-2 py-1 text-xs font-mono text-truth border border-truth/20">
+                <div className="badge-pill">
                   NIS2_COMPLIANT
                 </div>
-                <div className="bg-truth/10 px-2 py-1 text-xs font-mono text-truth border border-truth/20">
+                <div className="badge-pill">
                   ISO_27001
                 </div>
-                <div className="bg-truth/10 px-2 py-1 text-xs font-mono text-truth border border-truth/20">
+                <div className="badge-pill">
                   GDPR_READY
                 </div>
               </div>
-            </div>
+            </GlassCard>
 
             {/* Session Info - Estilo Técnico */}
             {sessionId && (
-              <div className="p-6">
+              <GlassCard border="none" className="p-6">
                 <h3 className="text-xs font-mono text-text-muted mb-2 uppercase">
                   SESSION_ID
                 </h3>
-                <div className="bg-void-surface/50 p-3 border border-structure">
+                <div className="bg-void-surface/50 p-3 border border-white/5 rounded">
                   <p className="text-xs font-mono text-text-primary break-all">
                     {sessionId}
                   </p>
                 </div>
-              </div>
+              </GlassCard>
             )}
             </div>
 
             {/* ===== RIGHT COLUMN: QR SCANNING ===== */}
             <div className="col-span-1 md:col-span-7">
-            <div className="p-6 min-h-[500px] flex flex-col items-center justify-center border-b border-structure">
+            <GlassCard border="none" className="p-6 min-h-[500px] flex flex-col items-center justify-center">
               {/* LOADING STATE */}
               {status === 'loading' && (
                 <div className="flex flex-col items-center gap-4">
@@ -370,9 +374,14 @@ export default function Dashboard() {
                     </p>
                   </div>
 
-                  {/* QR Code - Cuadrado de Luz Perfecto */}
-                  <div className="relative border border-truth/30 p-6 bg-void">
-                    <div className="absolute inset-0 border border-truth/20"></div>
+                  {/* QR Code - Efecto Aperture (Cuadrado de Luz) */}
+                  <div 
+                    className="relative border border-truth/30 p-6 bg-void rounded-lg animate-aperture"
+                    style={{
+                      boxShadow: '0 0 0 0 rgba(56, 189, 248, 0.4), inset 0 0 20px rgba(56, 189, 248, 0.1)',
+                    }}
+                  >
+                    <div className="absolute inset-0 border border-truth/20 rounded-lg"></div>
                     <QRCodeSVG
                       value={qrLink}
                       size={256}
@@ -415,10 +424,10 @@ export default function Dashboard() {
                   </div>
 
                   {/* User Data - Estilo Técnico */}
-                  <div className="bg-void-surface/50 border border-structure p-6 w-full max-w-sm">
+                  <GlassCard border="none" className="p-6 w-full max-w-sm">
                     <div className="space-y-3">
                       {userData.given_name && (
-                        <div className="flex justify-between items-center border-b border-structure pb-2">
+                        <div className="flex justify-between items-center border-b border-white/5 pb-2">
                           <span className="text-xs font-mono text-text-muted uppercase">
                             NAME
                           </span>
@@ -429,7 +438,7 @@ export default function Dashboard() {
                       )}
 
                       {userData.nationality && (
-                        <div className="flex justify-between items-center border-b border-structure pb-2">
+                        <div className="flex justify-between items-center border-b border-white/5 pb-2">
                           <span className="text-xs font-mono text-text-muted uppercase">
                             NATIONALITY
                           </span>
@@ -440,7 +449,7 @@ export default function Dashboard() {
                       )}
 
                       {userData.document_number && (
-                        <div className="flex justify-between items-center border-b border-structure pb-2">
+                        <div className="flex justify-between items-center border-b border-white/5 pb-2">
                           <span className="text-xs font-mono text-text-muted uppercase">
                             DOCUMENT
                           </span>
@@ -451,7 +460,7 @@ export default function Dashboard() {
                       )}
 
                       {/* Trust Score */}
-                      <div className="pt-2 border-t-2 border-structure flex justify-between items-center">
+                      <div className="pt-2 border-t-2 border-white/5 flex justify-between items-center">
                         <span className="text-xs font-mono text-text-muted uppercase">
                           TRUST_SCORE
                         </span>
@@ -460,7 +469,7 @@ export default function Dashboard() {
                         </span>
                       </div>
                     </div>
-                  </div>
+                  </GlassCard>
 
                   {/* Action Buttons */}
                   <div className="flex flex-col sm:flex-row gap-3 w-full max-w-sm">
@@ -485,8 +494,8 @@ export default function Dashboard() {
                   </div>
                 </div>
               )}
+            </GlassCard>
             </div>
-          </div>
           </div>
         </section>
 
@@ -495,7 +504,7 @@ export default function Dashboard() {
           <h3 className="text-lg font-display font-bold uppercase tracking-widest text-text-primary mb-6">
             ¿POR QUÉ CONFIAR EN SYNAPSYS?
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-structure">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[
               {
                 title: 'SEGURIDAD MÁXIMA',
@@ -510,14 +519,14 @@ export default function Dashboard() {
                 desc: 'CERTIFIED EIDAS 2.0 // NIS2 // ISO 27001',
               },
             ].map((item, i) => (
-              <DataCard key={i} border={i < 2 ? 'r' : 'none'}>
+              <GlassCard key={i} border="none" className="p-6">
                 <h4 className="font-display font-semibold uppercase tracking-wide text-text-primary mb-2 text-sm">
                   {item.title}
                 </h4>
                 <p className="text-xs font-mono text-text-muted">
                   {item.desc}
                 </p>
-              </DataCard>
+              </GlassCard>
             ))}
           </div>
         </section>

@@ -3,6 +3,7 @@ import { Inter, Space_Grotesk } from "next/font/google"
 import "./globals.css"
 import { siteConfig } from "@/config/site"
 import { Providers } from "@/components/providers/theme-provider"
+import { AmbientBackground } from "@/components/ui/AmbientBackground"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -74,6 +75,7 @@ export default function RootLayout({
         }} />
       </head>
       <body className="font-sans antialiased relative">
+        <AmbientBackground />
         <Providers>{children}</Providers>
       </body>
     </html>

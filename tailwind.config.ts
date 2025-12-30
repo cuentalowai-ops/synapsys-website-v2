@@ -10,7 +10,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // LUMINOUS VOID v2 Palette
+        // LUMINOUS VOID v2 Palette (STRICT: Solo Void y Cyan)
         void: {
           DEFAULT: "#02040A", // Abismo azulado
           surface: "#0B1221", // Paneles opcionales
@@ -76,7 +76,7 @@ const config: Config = {
       },
       fontSize: {
         // Fluid Typography con clamp()
-        "fluid-hero": "clamp(2rem, 5vw, 4.5rem)", // Mobile: 2rem, Desktop: 4.5rem
+        "fluid-hero": "clamp(2rem, 5vw, 4.5rem)",
         "fluid-h1": "clamp(1.75rem, 4vw, 3rem)",
         "fluid-h2": "clamp(1.5rem, 3vw, 2.25rem)",
         "fluid-h3": "clamp(1.25rem, 2.5vw, 1.875rem)",
@@ -85,12 +85,27 @@ const config: Config = {
       boxShadow: {
         "neon-cyan": "0 0 20px rgba(56, 189, 248, 0.2)",
         "neon-cyan-lg": "0 0 40px rgba(56, 189, 248, 0.3)",
-        "neon-amber": "0 0 20px rgba(250, 204, 21, 0.2)",
+        "neon-cyan-xl": "0 0 60px rgba(56, 189, 248, 0.4)",
+        "glow-glass": "0 0 30px -10px rgba(56, 189, 248, 0.3)",
+        "glow-glass-hover": "0 0 40px -5px rgba(56, 189, 248, 0.5)",
+        "inner-glow": "inset 0 0 20px rgba(56, 189, 248, 0.1)",
+      },
+      backdropBlur: {
+        xs: "2px",
       },
       keyframes: {
         "grid-pulse": {
           "0%, 100%": { opacity: "0.03" },
           "50%": { opacity: "0.08" },
+        },
+        "float": {
+          "0%, 100%": { transform: "translateY(0px) translateX(0px)" },
+          "33%": { transform: "translateY(-20px) translateX(10px)" },
+          "66%": { transform: "translateY(10px) translateX(-10px)" },
+        },
+        "float-slow": {
+          "0%, 100%": { transform: "translateY(0px) translateX(0px)" },
+          "50%": { transform: "translateY(-30px) translateX(15px)" },
         },
         "glow-pulse": {
           "0%, 100%": { boxShadow: "0 0 20px rgba(56, 189, 248, 0.2)" },
@@ -100,14 +115,30 @@ const config: Config = {
           "0%": { transform: "translateY(-100%)" },
           "100%": { transform: "translateY(100vh)" },
         },
+        "scanning": {
+          "0%": { transform: "translateX(-100%) translateY(-100%) rotate(45deg)" },
+          "100%": { transform: "translateX(200%) translateY(200%) rotate(45deg)" },
+        },
+        "aperture": {
+          "0%, 100%": { 
+            boxShadow: "0 0 0 0 rgba(56, 189, 248, 0.4), inset 0 0 20px rgba(56, 189, 248, 0.1)" 
+          },
+          "50%": { 
+            boxShadow: "0 0 30px rgba(56, 189, 248, 0.6), inset 0 0 30px rgba(56, 189, 248, 0.2)" 
+          },
+        },
       },
       animation: {
-        "grid-pulse": "grid-pulse 4s ease-in-out infinite",
+        "grid-pulse": "grid-pulse 3s ease-in-out infinite",
+        "float": "float 5s ease-in-out infinite",
+        "float-slow": "float-slow 8s ease-in-out infinite",
         "glow-pulse": "glow-pulse 2s ease-in-out infinite",
         "scan-line": "scan-line 3s linear infinite",
+        "scanning": "scanning 3s linear infinite",
+        "aperture": "aperture 2s ease-in-out infinite",
       },
       spacing: {
-        "touch": "44px", // Touch target mínimo (Apple)
+        "touch": "44px",
       },
     },
   },

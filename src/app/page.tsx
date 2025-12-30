@@ -4,7 +4,8 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { ArrowRight, Shield, Zap, Lock } from 'lucide-react'
 import { TechButton } from '@/components/ui/TechButton'
-import { DataCard } from '@/components/ui/DataCard'
+import { ScanButton } from '@/components/ui/ScanButton'
+import { GlassCard } from '@/components/ui/GlassCard'
 import { StatusBadge } from '@/components/ui/StatusBadge'
 
 // Componente para el mapa de nodos SVG animado
@@ -141,41 +142,43 @@ export default function HomePage() {
               {/* Left: Headline + CTA */}
               <div className="md:col-span-7 space-y-8">
                 <div>
-                  <StatusBadge status="active" className="mb-6">
-                    PRODUCTION_READY
-                  </StatusBadge>
-                  <h1 className="text-fluid-h1 text-text-primary mb-6">
+                  <div className="badge-pill mb-6 inline-block">
+                    SYSTEM OPERATIONAL
+                  </div>
+                  <h1 className="text-hero mb-6">
                     DECENTRALIZED TRUST<br />
                     INFRASTRUCTURE
                   </h1>
                   <p className="text-fluid-body text-text-muted max-w-2xl mb-8">
                     OpenID4VP compliant engine. Zero-knowledge proofs. &lt;50ms latency.
                   </p>
-                  <Link href="/dashboard">
-                    <TechButton size="lg" className="min-w-[200px] h-12">
-                      INITIATE SEQUENCE
-                      <ArrowRight className="ml-2 h-4 w-4 inline" />
-                    </TechButton>
-                  </Link>
+                  <ScanButton href="/dashboard" size="lg" className="min-w-[200px]">
+                    INITIATE SEQUENCE
+                    <ArrowRight className="ml-2 h-4 w-4 inline" />
+                  </ScanButton>
                 </div>
               </div>
 
               {/* Right: Network Map + Data Stream */}
               <div className="md:col-span-5 space-y-4">
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-2 h-2 bg-truth animate-pulse"></div>
-                    <span className="text-data text-text-muted uppercase">NETWORK STATUS</span>
+                <GlassCard>
+                  <div className="p-4">
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="w-2 h-2 bg-truth animate-pulse rounded-full"></div>
+                      <span className="text-data text-text-muted uppercase">NETWORK STATUS</span>
+                    </div>
+                    <NetworkMap />
                   </div>
-                  <NetworkMap />
-                </div>
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-2 h-2 bg-truth animate-pulse"></div>
-                    <span className="text-data text-text-muted uppercase">DATA STREAM</span>
+                </GlassCard>
+                <GlassCard>
+                  <div className="p-4">
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="w-2 h-2 bg-truth animate-pulse rounded-full"></div>
+                      <span className="text-data text-text-muted uppercase">DATA STREAM</span>
+                    </div>
+                    <DataStream />
                   </div>
-                  <DataStream />
-                </div>
+                </GlassCard>
               </div>
             </div>
           </div>
@@ -188,10 +191,10 @@ export default function HomePage() {
               TECHNOLOGY
             </h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 border border-structure">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {/* Card 1: Protocol */}
-              <DataCard border="r">
-                <div className="tech-container mb-4">
+              <GlassCard border="none" className="p-6">
+                <div className="tech-container mb-4 w-fit">
                   <Shield className="h-6 w-6 text-truth" />
                 </div>
                 <h3 className="text-fluid-h3 font-display uppercase mb-4 text-text-primary">
@@ -208,11 +211,11 @@ export default function HomePage() {
                     <span className="text-truth">FORMAT:</span> ISO mDL
                   </div>
                 </div>
-              </DataCard>
+              </GlassCard>
 
               {/* Card 2: Privacy */}
-              <DataCard border="r">
-                <div className="tech-container mb-4">
+              <GlassCard border="none" className="p-6">
+                <div className="tech-container mb-4 w-fit">
                   <Lock className="h-6 w-6 text-truth" />
                 </div>
                 <h3 className="text-fluid-h3 font-display uppercase mb-4 text-text-primary">
@@ -229,11 +232,11 @@ export default function HomePage() {
                     <span className="text-truth">STORAGE:</span> Zero PII
                   </div>
                 </div>
-              </DataCard>
+              </GlassCard>
 
               {/* Card 3: Architecture */}
-              <DataCard>
-                <div className="tech-container mb-4">
+              <GlassCard border="none" className="p-6">
+                <div className="tech-container mb-4 w-fit">
                   <Zap className="h-6 w-6 text-truth" />
                 </div>
                 <h3 className="text-fluid-h3 font-display uppercase mb-4 text-text-primary">
@@ -250,7 +253,7 @@ export default function HomePage() {
                     <span className="text-truth">STORAGE:</span> Redis KV
                   </div>
                 </div>
-              </DataCard>
+              </GlassCard>
             </div>
           </div>
         </section>
@@ -262,9 +265,9 @@ export default function HomePage() {
               TRUST
             </h2>
             
-            <div className="border border-structure">
+            <GlassCard border="none" className="overflow-hidden">
               <table className="w-full">
-                <thead className="border-b border-structure">
+                <thead className="border-b border-white/5 bg-white/5">
                   <tr>
                     <th className="text-left p-4 text-data text-text-muted uppercase">CERTIFICATION</th>
                     <th className="text-left p-4 text-data text-text-muted uppercase">STATUS</th>
@@ -272,28 +275,28 @@ export default function HomePage() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-b border-structure">
+                  <tr className="border-b border-white/5 hover:bg-white/5 transition-colors">
                     <td className="p-4 font-mono text-text-primary">ISO_27001</td>
                     <td className="p-4">
                       <StatusBadge status="success">CERTIFIED</StatusBadge>
                     </td>
                     <td className="p-4 font-mono text-text-muted">2026-12-31</td>
                   </tr>
-                  <tr className="border-b border-structure">
+                  <tr className="border-b border-white/5 hover:bg-white/5 transition-colors">
                     <td className="p-4 font-mono text-text-primary">EIDAS_TSP</td>
                     <td className="p-4">
                       <StatusBadge status="success">CERTIFIED</StatusBadge>
                     </td>
                     <td className="p-4 font-mono text-text-muted">2026-12-31</td>
                   </tr>
-                  <tr className="border-b border-structure">
+                  <tr className="border-b border-white/5 hover:bg-white/5 transition-colors">
                     <td className="p-4 font-mono text-text-primary">SOC2_TYPE_II</td>
                     <td className="p-4">
                       <StatusBadge status="active">IN_PROGRESS</StatusBadge>
                     </td>
                     <td className="p-4 font-mono text-text-muted">PENDING</td>
                   </tr>
-                  <tr>
+                  <tr className="hover:bg-white/5 transition-colors">
                     <td className="p-4 font-mono text-text-primary">NIS2_COMPLIANT</td>
                     <td className="p-4">
                       <StatusBadge status="success">COMPLIANT</StatusBadge>
@@ -302,23 +305,25 @@ export default function HomePage() {
                   </tr>
                 </tbody>
               </table>
-            </div>
+            </GlassCard>
           </div>
         </section>
 
         {/* CTA SECTION */}
         <section className="py-12 md:py-24 px-4 md:px-12 lg:px-24">
-          <div className="max-w-4xl mx-auto text-center border border-structure p-12">
-            <h2 className="text-fluid-h1 font-display uppercase tracking-tight mb-6 text-text-primary">
-              READY TO DEPLOY?
-            </h2>
-            <p className="text-fluid-body text-text-muted mb-8 max-w-2xl mx-auto">
-              INITIATE VERIFICATION SEQUENCE // CONNECT TO EUDI WALLET // VALIDATE CREDENTIALS IN &lt; 2S
-            </p>
-            <TechButton href="/dashboard" size="lg">
-              ACCESS DASHBOARD
-              <ArrowRight className="ml-2 h-5 w-5 inline" />
-            </TechButton>
+          <div className="max-w-4xl mx-auto text-center">
+            <GlassCard border="none" className="p-12">
+              <h2 className="text-fluid-h1 font-display uppercase tracking-tight mb-6 text-text-primary">
+                READY TO DEPLOY?
+              </h2>
+              <p className="text-fluid-body text-text-muted mb-8 max-w-2xl mx-auto">
+                INITIATE VERIFICATION SEQUENCE // CONNECT TO EUDI WALLET // VALIDATE CREDENTIALS IN &lt; 2S
+              </p>
+              <ScanButton href="/dashboard" size="lg">
+                ACCESS DASHBOARD
+                <ArrowRight className="ml-2 h-5 w-5 inline" />
+              </ScanButton>
+            </GlassCard>
           </div>
         </section>
       </main>

@@ -22,9 +22,10 @@
   body {
     @apply bg-void text-text-primary antialiased;
     font-family: var(--font-inter), system-ui, sans-serif;
+    overflow-x: hidden;
   }
 
-  /* Infinite Grid Background */
+  /* Infinite Grid Background - Luminous Depth */
   body::before {
     content: '';
     position: fixed;
@@ -33,15 +34,15 @@
     width: 100%;
     height: 100%;
     background-image: 
-      linear-gradient(rgba(56, 189, 248, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+      linear-gradient(rgba(56, 189, 248, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(56, 189, 248, 0.05) 1px, transparent 1px);
     background-size: 40px 40px;
     pointer-events: none;
     z-index: 0;
-    animation: grid-pulse 4s ease-in-out infinite;
+    animation: grid-pulse 3s ease-in-out infinite;
   }
 
-  /* Scan Line Effect (Opcional, muy sutil) */
+  /* Scan Line Effect */
   body::after {
     content: '';
     position: fixed;
@@ -70,6 +71,11 @@
     text-transform: uppercase;
     letter-spacing: -0.02em;
     line-height: 1.1;
+    background: linear-gradient(to right, #ffffff, rgba(56, 189, 248, 0.4), #ffffff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 15px rgba(56, 189, 248, 0.3));
   }
 
   .text-fluid-h1 {
@@ -93,6 +99,21 @@
     border-color: rgba(255, 255, 255, 0.08);
   }
 
+  /* Glassmorphism Utilities */
+  .glass-card {
+    background: rgba(11, 18, 33, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .glass-card-hover:hover {
+    background: rgba(11, 18, 33, 0.6);
+    border-color: rgba(56, 189, 248, 0.5);
+    box-shadow: 0 0 30px -10px rgba(56, 189, 248, 0.3);
+  }
+
   /* Neon Glow Utilities */
   .glow-truth {
     box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
@@ -102,17 +123,37 @@
     box-shadow: 0 0 40px rgba(56, 189, 248, 0.3);
   }
 
+  .glow-truth-xl {
+    box-shadow: 0 0 60px rgba(56, 189, 248, 0.4);
+  }
+
   .glow-warning {
     box-shadow: 0 0 20px rgba(250, 204, 21, 0.2);
   }
 
   /* Tech Container */
   .tech-container {
-    @apply border border-structure bg-white/5 p-2;
+    @apply border border-white/10 bg-white/5 p-2 backdrop-blur-sm;
   }
 
   /* Data Display */
   .data-display {
     @apply font-mono text-xs text-text-muted bg-void-surface/50 p-2 border border-structure;
+  }
+
+  /* Badge Pill */
+  .badge-pill {
+    @apply rounded-full bg-truth/10 text-truth border border-truth/20 uppercase tracking-widest text-[10px] px-3 py-1;
+  }
+
+  /* Input Terminal Style */
+  .input-terminal {
+    @apply bg-white/5 border border-white/10 font-mono;
+    transition: all 0.2s ease;
+  }
+
+  .input-terminal:focus {
+    @apply border-truth ring-1 ring-truth/50;
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
   }
 }
