@@ -10,6 +10,7 @@ export default function Dashboard() {
   const { theme, toggleTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const eventSourceRef = useRef<EventSource | null>(null)
+  const pollIntervalRef = useRef<NodeJS.Timeout | null>(null)
   
   // ===== STATE LÓGICO (Conectado al Backend) =====
   const [status, setStatus] = useState<'idle' | 'loading' | 'pending' | 'success' | 'error'>('idle')
@@ -40,8 +41,82 @@ export default function Dashboard() {
         eventSourceRef.current.close()
         eventSourceRef.current = null
       }
+      if (pollIntervalRef.current) {
+        clearInterval(pollIntervalRef.current)
+        pollIntervalRef.current = null
+      }
     }
   }, [mounted])
+
+  // ===== POLLING FALLBACK (para cuando SSE falla en serverless) =====
+  useEffect(() => {
+    // Solo hacer polling si estamos en estado 'pending' y tenemos sessionId
+    if (status === 'pending' && sessionId) {
+      console.log('🔄 [Polling] Starting fallback polling for session:', sessionId)
+      
+      pollIntervalRef.current = setInterval(async () => {
+        try {
+          const res = await fetch(`/api/verify/poll?session_id=${sessionId}`)
+          
+          if (!res.ok) {
+            if (res.status === 404) {
+              // Sesión expirada
+              console.warn('⚠️ [Polling] Session expired')
+              setStatus('error')
+              setErrorMsg('La sesión ha expirado. Por favor, intenta de nuevo.')
+              if (pollIntervalRef.current) {
+                clearInterval(pollIntervalRef.current)
+                pollIntervalRef.current = null
+              }
+            }
+            return
+          }
+
+          const data = await res.json()
+          
+          if (data.state === 'verified') {
+            console.log('✅ [Polling] Verification detected via polling')
+            setUserData(data.userData || {})
+            setStatus('success')
+            
+            // Limpiar polling
+            if (pollIntervalRef.current) {
+              clearInterval(pollIntervalRef.current)
+              pollIntervalRef.current = null
+            }
+          } else if (data.state === 'failed') {
+            console.log('❌ [Polling] Verification failed detected via polling')
+            setStatus('error')
+            setErrorMsg('La verificación falló')
+            
+            // Limpiar polling
+            if (pollIntervalRef.current) {
+              clearInterval(pollIntervalRef.current)
+              pollIntervalRef.current = null
+            }
+          }
+          // Si state === 'pending', continuar polling
+        } catch (error) {
+          console.error('❌ [Polling] Error:', error)
+          // No detener polling por errores de red temporales
+        }
+      }, 2000) // Poll cada 2 segundos
+    } else {
+      // Detener polling si no estamos en 'pending'
+      if (pollIntervalRef.current) {
+        clearInterval(pollIntervalRef.current)
+        pollIntervalRef.current = null
+      }
+    }
+
+    // Cleanup
+    return () => {
+      if (pollIntervalRef.current) {
+        clearInterval(pollIntervalRef.current)
+        pollIntervalRef.current = null
+      }
+    }
+  }, [status, sessionId])
 
   const startVerification = async () => {
     try {
@@ -90,9 +165,9 @@ export default function Dashboard() {
       }
 
       eventSource.onerror = () => {
-        console.error('❌ SSE connection lost')
-        eventSource.close()
-        eventSourceRef.current = null
+        console.warn('⚠️ SSE connection lost - falling back to polling')
+        // No cerrar SSE inmediatamente, dejar que polling tome el control
+        // El polling ya está activo si status === 'pending'
       }
 
     } catch (e) {

@@ -14,8 +14,8 @@ export async function GET(request: NextRequest) {
 
   console.log(`🔌 [/api/verify/events] SSE connection requested for: ${sessionId}`);
 
-  // Check if session exists
-  const session = sessionStore.getSession(sessionId);
+  // Check if session exists in Redis
+  const session = await sessionStore.getSession(sessionId);
   if (!session) {
     console.warn(`⚠️ [/api/verify/events] Session not found: ${sessionId}`);
     return new Response('Session not found or expired', { status: 404 });

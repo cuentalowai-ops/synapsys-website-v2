@@ -11,8 +11,8 @@ export async function POST(request: NextRequest) {
     const { session_id, state, user_data, error } = body;
 
     console.log(`\n📥 [/api/verify/callback] Request received`);
-    console.log(`  session_id: ${session_id}`);
-    console.log(`  state: ${state}`);
+    console.log(`   session_id: ${session_id}`);
+    console.log(`   state: ${state}`);
 
     if (!session_id) {
       console.error('❌ [/api/verify/callback] Missing session_id');
@@ -22,9 +22,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Get session (now async)
+    // Get session from Redis
     const session = await sessionStore.getSession(session_id);
-
     if (!session) {
       console.warn(`⚠️ [/api/verify/callback] Session not found: ${session_id}`);
       return NextResponse.json(
@@ -38,21 +37,19 @@ export async function POST(request: NextRequest) {
 
       const startTime = Date.now();
 
-      // Update session state (now async with different signature)
-      await sessionStore.updateSession(session_id, {
-        state: 'verified',
-        userData: user_data
-      });
+      // Update session state in Redis
+      await sessionStore.updateSessionState(session_id, 'verified', user_data);
 
-      // Notify all listeners (now async)
-      await sessionStore.notifyListeners(session_id, {
+      // Notify all listeners
+      const notified = sessionStore.notifyListeners(session_id, 'verified', {
         success: true,
         userData: user_data || {},
         timestamp: new Date().toISOString()
       });
 
       const latency = Date.now() - startTime;
-      console.log(`📤 [/api/verify/callback] Notified listeners`);
+
+      console.log(`📤 [/api/verify/callback] Notified ${notified} listener(s)`);
 
       // Send webhook notification (async, no await to avoid blocking)
       // ✅ GDPR: Solo metadatos, sin PII
@@ -67,21 +64,19 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: true,
-          message: 'Verification processed'
+          message: 'Verification processed',
+          listenersNotified: notified
         },
         { status: 200 }
       );
-
     } else if (state === 'failed') {
       console.log(`❌ [/api/verify/callback] Verification failed`);
 
-      // Update session state
-      await sessionStore.updateSession(session_id, {
-        state: 'failed'
-      });
+      // Update session state in Redis
+      await sessionStore.updateSessionState(session_id, 'failed');
 
       // Notify listeners
-      await sessionStore.notifyListeners(session_id, {
+      const notified = sessionStore.notifyListeners(session_id, 'error', {
         success: false,
         error: error || 'Verification failed',
         timestamp: new Date().toISOString()
@@ -99,11 +94,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          error: error || 'Verification failed'
+          error: error || 'Verification failed',
+          listenersNotified: notified
         },
         { status: 400 }
       );
-
     } else {
       console.error(`❌ [/api/verify/callback] Invalid state: ${state}`);
       return NextResponse.json(
@@ -111,7 +106,6 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-
   } catch (error) {
     console.error('❌ [/api/verify/callback] Server error:', error);
     return NextResponse.json(

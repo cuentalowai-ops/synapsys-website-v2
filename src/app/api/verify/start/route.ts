@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
       requestedFields: ['family_name', 'given_name', 'birth_date']
     });
 
-    // Crear sesión en SessionStore para SSE
+    // Crear sesión en SessionStore (Redis) para SSE
     const expiresIn = 5 * 60 * 1000; // 5 minutos
     await sessionStore.createSession(requestData.session_id, expiresIn);
 
