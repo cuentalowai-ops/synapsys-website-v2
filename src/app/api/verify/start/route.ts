@@ -1,76 +1,61 @@
-import { NextRequest, NextResponse } from 'next/server';
-import OID4VPService from '@/services/OID4VPService';
+import { NextResponse } from 'next/server';
 import { createSession } from '@/lib/session-store';
 
-const VERIFIER_DID = process.env.VERIFIER_DID || 'did:web:verifier.thesynapsys.io';
-const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:3000';
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
-export async function POST(request: NextRequest) {
+export async function POST() {
   try {
-    const verifierPrivateKey = process.env.VERIFIER_PRIVATE_KEY;
+    console.log('🚀 [API] Iniciando flujo de verificación...');
+
+    // 1. DIAGNÓSTICO DE ENTORNO
+    const envCheck = {
+      KV_URL: !!process.env.KV_URL,
+      KV_REST_API_URL: !!process.env.KV_REST_API_URL,
+      KV_REST_API_TOKEN: !!process.env.KV_REST_API_TOKEN,
+      VERIFIER_PRIVATE_KEY: !!process.env.VERIFIER_PRIVATE_KEY,
+    };
+    console.log('🔍 [API] Env Check:', envCheck);
+
+    if (!process.env.KV_URL && !process.env.KV_REST_API_URL) {
+      throw new Error('CRITICAL: KV_URL o KV_REST_API_URL debe estar definida en las variables de entorno.');
+    }
+
+    // 2. GENERACIÓN DE SESIÓN (MOCK DE CRIPTOGRAFÍA TEMPORAL)
+    // Usamos un mock para aislar si el fallo es Redis o la librería OID4VP
+    const sessionId = crypto.randomUUID();
+    const nonce = crypto.randomUUID();
     
-    if (!verifierPrivateKey) {
-      return NextResponse.json(
-        { error: 'Server not configured: Missing VERIFIER_PRIVATE_KEY' },
-        { status: 500 }
-      );
-    }
+    // URL simulada que cumple el formato pero no requiere firma criptográfica aún
+    const mockQrLink = `openid4vp://authorize?client_id=synapsys.io&request_uri=https://thesynapsys.io/api/verify/request/${sessionId}&nonce=${nonce}`;
 
-    let privateKeyJwk;
-    try {
-      privateKeyJwk = typeof verifierPrivateKey === 'string' 
-        ? JSON.parse(verifierPrivateKey) 
-        : verifierPrivateKey;
-      
-      // Validar formato básico
-      if (!privateKeyJwk.kty || !privateKeyJwk.crv) {
-        throw new Error('Invalid JWK format: missing kty or crv');
-      }
-      
-      console.log('🔑 Loaded JWK:', {
-        kty: privateKeyJwk.kty,
-        crv: privateKeyJwk.crv,
-        hasX: !!privateKeyJwk.x,
-        hasY: !!privateKeyJwk.y,
-        hasD: !!privateKeyJwk.d
-      });
-    } catch (e) {
-      console.error('❌ Failed to parse VERIFIER_PRIVATE_KEY:', e);
-      return NextResponse.json(
-        { error: 'Invalid VERIFIER_PRIVATE_KEY format', details: (e as Error).message },
-        { status: 500 }
-      );
-    }
-    const oid4vp = new OID4VPService();
-
-    const requestData = await oid4vp.generateAuthorizationRequest({
-      verifierDid: VERIFIER_DID,
-      callbackUrl: `${API_BASE_URL}/api/verify/callback`,
-      privateKey: privateKeyJwk,
-      requestedFields: ['family_name', 'given_name', 'birth_date']
+    console.log(`💾 [API] Creando sesión en Redis: ${sessionId}`);
+    
+    // 3. PERSISTENCIA EN REDIS (KV)
+    await createSession(sessionId, { 
+      qrLink: mockQrLink,
+      state: 'pending' 
     });
 
-    // Crear sesión en Redis (Stateless)
-    await createSession(requestData.session_id, {
-      qrLink: requestData.uri
-    });
-
-    console.log('✅ Authorization request generated:', requestData.session_id);
+    console.log('✅ [API] Sesión creada exitosamente');
 
     return NextResponse.json({
       success: true,
-      qr_link: requestData.uri,
-      qr_payload: requestData.qr_payload,
-      session_id: requestData.session_id,
-      expires_at: requestData.expires_at
+      session_id: sessionId,
+      qr_link: mockQrLink,
+      debug_info: {
+        env: envCheck,
+        mode: 'DEBUG_BYPASS_CRYPTO'
+      }
     });
 
   } catch (error: any) {
-    console.error('❌ /api/verify/start error:', error.message);
-    return NextResponse.json(
-      { error: 'Verification initiation failed', details: error.message },
-      { status: 500 }
-    );
+    console.error('❌ [API] FATAL ERROR:', error);
+    return NextResponse.json({
+      success: false,
+      error: error.message || 'Unknown error',
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined,
+      timestamp: new Date().toISOString()
+    }, { status: 500 });
   }
 }
-
