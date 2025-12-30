@@ -206,3 +206,5 @@ secrets/
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 >>>>>>> 8b045e05c36bbb642a8b27b75563cc69db8b0447
+# Reports directory
+reports/

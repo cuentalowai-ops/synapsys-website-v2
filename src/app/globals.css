@@ -68,7 +68,7 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-slate-200 dark:border-slate-800;
   }
   body {
     @apply bg-white text-gray-800 antialiased;
@@ -78,17 +78,26 @@
 @layer utilities {
   /* Gradientes de Texto - sin blur para mejor legibilidad */
   .text-gradient-hero {
-    @apply bg-gradient-to-r from-coral-400 via-amber-300 to-amber-500 bg-clip-text text-transparent;
+    background: linear-gradient(to right, #ff8f52, #ffe89a, #ffc043);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
     text-shadow: 
       0 0 10px rgba(255, 176, 136, 0.1);
   }
   
   .text-gradient-secondary {
-    @apply bg-gradient-to-r from-magenta-400 via-magenta-500 to-purple-500 bg-clip-text text-transparent;
+    background: linear-gradient(to right, #9B4D7A, #8b4470, #6B5B9A);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   
   .text-gradient-teal {
-    @apply bg-gradient-to-r from-teal-400 to-teal-600 bg-clip-text text-transparent;
+    background: linear-gradient(to right, #4AABAB, #248b8c);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   
   /* Difuminado suave solo para elementos decorativos (no texto) */

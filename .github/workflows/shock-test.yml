@@ -1,0 +1,59 @@
+name: Shock Test
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Install jq (for JSON parsing)
+        run: sudo apt-get update && sudo apt-get install -y jq
+      
+      - name: Start dev server
+        run: npm run dev &
+        env:
+          VERIFIER_DID: ${{ secrets.VERIFIER_DID || 'did:web:verifier.thesynapsys.io' }}
+          API_BASE_URL: http://localhost:3000
+          VERIFIER_PRIVATE_KEY: ${{ secrets.VERIFIER_PRIVATE_KEY || '{"kty":"EC","x":"p16XwDy4lQiq-eE7eWcSp5Yj204FKR2jQgLx-uFyqMY","y":"0FHsg20vj4kQ0wMZ_SpDZuPsq3xl0SRh5pxgDdrjEG4","crv":"P-256","d":"4x_kYmOGosZ4m6pnPq0GEi_9JXEjmrZA3hMXCxirB40","kid":"synapsys-verifier-key-1","use":"sig"}' }}
+      
+      - name: Wait for server
+        run: |
+          echo "Waiting for server to start..."
+          timeout 30 bash -c 'until curl -s http://localhost:3000/dashboard > /dev/null; do sleep 1; done'
+          echo "Server is ready!"
+      
+      - name: Run shock test
+        run: npm run test:shock
+      
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: shock-test-reports
+          path: reports/
+          retention-days: 7
+      
+      - name: Check test result
+        if: failure()
+        run: |
+          echo "❌ Shock test failed!"
+          echo "Check the uploaded reports for details."
+          exit 1
+
