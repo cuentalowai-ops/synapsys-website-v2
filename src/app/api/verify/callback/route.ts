@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { sessionStore } from '@/lib/session-store';
+import { getSession, updateSessionState } from '@/lib/session-store';
 import { notifySuccess, notifyError } from '@/lib/notifier';
 
 export const runtime = 'nodejs';
@@ -22,8 +22,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Get session from Redis
-    const session = await sessionStore.getSession(session_id);
+    // Get session from Redis (Stateless)
+    const session = await getSession(session_id);
     if (!session) {
       console.warn(`⚠️ [/api/verify/callback] Session not found: ${session_id}`);
       return NextResponse.json(
@@ -37,19 +37,12 @@ export async function POST(request: NextRequest) {
 
       const startTime = Date.now();
 
-      // Update session state in Redis
-      await sessionStore.updateSessionState(session_id, 'verified', user_data);
-
-      // Notify all listeners
-      const notified = sessionStore.notifyListeners(session_id, 'verified', {
-        success: true,
-        userData: user_data || {},
-        timestamp: new Date().toISOString()
-      });
+      // Update session state in Redis (Stateless)
+      await updateSessionState(session_id, 'verified', user_data);
 
       const latency = Date.now() - startTime;
 
-      console.log(`📤 [/api/verify/callback] Notified ${notified} listener(s)`);
+      console.log(`📤 [/api/verify/callback] Session updated in Redis (polling will detect)`);
 
       // Send webhook notification (async, no await to avoid blocking)
       // ✅ GDPR: Solo metadatos, sin PII
@@ -64,23 +57,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: true,
-          message: 'Verification processed',
-          listenersNotified: notified
+          message: 'Verification processed'
         },
         { status: 200 }
       );
     } else if (state === 'failed') {
       console.log(`❌ [/api/verify/callback] Verification failed`);
 
-      // Update session state in Redis
-      await sessionStore.updateSessionState(session_id, 'failed');
-
-      // Notify listeners
-      const notified = sessionStore.notifyListeners(session_id, 'error', {
-        success: false,
-        error: error || 'Verification failed',
-        timestamp: new Date().toISOString()
-      });
+      // Update session state in Redis (Stateless)
+      await updateSessionState(session_id, 'failed');
 
       // Send webhook notification (async, no await to avoid blocking)
       // ✅ GDPR: Solo metadatos, sin PII
@@ -94,8 +79,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          error: error || 'Verification failed',
-          listenersNotified: notified
+          error: error || 'Verification failed'
         },
         { status: 400 }
       );

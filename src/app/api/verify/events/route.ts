@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { sessionStore } from '@/lib/session-store';
+import { getSession } from '@/lib/session-store';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -14,20 +14,22 @@ export async function GET(request: NextRequest) {
 
   console.log(`🔌 [/api/verify/events] SSE connection requested for: ${sessionId}`);
 
-  // Check if session exists in Redis
-  const session = await sessionStore.getSession(sessionId);
+  // Check if session exists in Redis (Stateless)
+  const session = await getSession(sessionId);
   if (!session) {
     console.warn(`⚠️ [/api/verify/events] Session not found: ${sessionId}`);
     return new Response('Session not found or expired', { status: 404 });
   }
 
+  // NOTA: SSE en serverless tiene limitaciones. El frontend usa polling como fallback.
+  // Este endpoint puede funcionar si la conexión se mantiene, pero no es crítico.
   const encoder = new TextEncoder();
   let isClosed = false;
 
   const customResponse = new Response(
     new ReadableStream({
       start(controller) {
-        console.log(`📡 [/api/verify/events] ReadableStream started for ${sessionId}`);
+        console.log(`📡 [/api/verify/events] ReadableStream started for ${sessionId} (SSE optional, polling is primary)`);
 
         // Send initial connection message
         try {
@@ -40,14 +42,10 @@ export async function GET(request: NextRequest) {
           return;
         }
 
-        // Register listener
-        sessionStore.addListener(sessionId, controller);
-
         // Cleanup on client disconnect
         const cleanup = () => {
           if (!isClosed) {
             isClosed = true;
-            sessionStore.removeListener(sessionId, controller);
             console.log(`🔌 [/api/verify/events] SSE connection closed for ${sessionId}`);
           }
         };
@@ -57,7 +55,6 @@ export async function GET(request: NextRequest) {
 
       cancel() {
         console.log(`⚠️ [/api/verify/events] Stream cancelled for ${sessionId}`);
-        sessionStore.removeListener(sessionId, undefined);
       }
     }),
     {

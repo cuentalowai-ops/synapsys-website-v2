@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { sessionStore } from '@/lib/session-store';
+import { getSession } from '@/lib/session-store';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -19,8 +19,8 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Obtener sesión desde Redis
-    const session = await sessionStore.getSession(sessionId);
+    // Obtener sesión desde Redis (Stateless)
+    const session = await getSession(sessionId);
 
     if (!session) {
       return NextResponse.json(
@@ -34,8 +34,7 @@ export async function GET(request: NextRequest) {
       session_id: sessionId,
       state: session.state,
       userData: session.userData || null,
-      createdAt: session.createdAt.toISOString(),
-      expiresAt: session.expiresAt.toISOString(),
+      createdAt: new Date(session.createdAt).toISOString(),
     });
   } catch (error) {
     console.error('❌ [/api/verify/poll] Error:', error);

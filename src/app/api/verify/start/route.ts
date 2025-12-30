@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import OID4VPService from '@/services/OID4VPService';
-import { sessionStore } from '@/lib/session-store';
+import { createSession } from '@/lib/session-store';
 
 const VERIFIER_DID = process.env.VERIFIER_DID || 'did:web:verifier.thesynapsys.io';
 const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:3000';
@@ -50,9 +50,10 @@ export async function POST(request: NextRequest) {
       requestedFields: ['family_name', 'given_name', 'birth_date']
     });
 
-    // Crear sesión en SessionStore (Redis) para SSE
-    const expiresIn = 5 * 60 * 1000; // 5 minutos
-    await sessionStore.createSession(requestData.session_id, expiresIn);
+    // Crear sesión en Redis (Stateless)
+    await createSession(requestData.session_id, {
+      qrLink: requestData.uri
+    });
 
     console.log('✅ Authorization request generated:', requestData.session_id);
 
