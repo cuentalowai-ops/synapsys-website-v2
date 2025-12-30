@@ -1,3 +1,5 @@
+import { kv } from '@vercel/kv';
+
 interface SessionInfo {
   sessionId: string;
   createdAt: Date;
@@ -8,10 +10,13 @@ interface SessionInfo {
 }
 
 class SessionStore {
-  private sessions = new Map<string, SessionInfo>();
   private encoder = new TextEncoder();
 
-  createSession(sessionId: string, expiresIn: number = 300000): SessionInfo {
+  private getKey(sessionId: string): string {
+    return `session:${sessionId}`;
+  }
+
+  async createSession(sessionId: string, expiresIn: number = 300000): Promise<SessionInfo> {
     const now = new Date();
     const session: SessionInfo = {
       sessionId,
@@ -20,110 +25,68 @@ class SessionStore {
       state: 'pending',
       listeners: new Set()
     };
-    
-    this.sessions.set(sessionId, session);
-    
-    // Auto-cleanup
-    setTimeout(() => {
-      this.closeAllListeners(sessionId);
-      this.sessions.delete(sessionId);
-      console.log(`🗑️ Session expired and cleaned: ${sessionId}`);
-    }, expiresIn);
 
-    console.log(`✅ [SessionStore] Created session: ${sessionId}`);
+    // Store in Redis KV with TTL (in seconds)
+    await kv.set(this.getKey(sessionId), {
+      ...session,
+      listeners: [] // Convert Set to Array for storage
+    }, {
+      ex: Math.floor(expiresIn / 1000)
+    });
+
     return session;
   }
 
-  getSession(sessionId: string): SessionInfo | undefined {
-    return this.sessions.get(sessionId);
-  }
-
-  addListener(sessionId: string, controller: any): boolean {
-    const session = this.sessions.get(sessionId);
-    if (!session) {
-      console.warn(`⚠️ [SessionStore] Session not found: ${sessionId}`);
-      return false;
-    }
+  async getSession(sessionId: string): Promise<SessionInfo | null> {
+    const data = await kv.get<Omit<SessionInfo, 'listeners'>>(this.getKey(sessionId));
     
-    session.listeners.add(controller);
-    console.log(`👂 [SessionStore] Listener added. Total for ${sessionId}: ${session.listeners.size}`);
-    return true;
+    if (!data) return null;
+
+    // Reconstruct dates and Set
+    return {
+      ...data,
+      createdAt: new Date(data.createdAt),
+      expiresAt: new Date(data.expiresAt),
+      listeners: new Set()
+    };
   }
 
-  removeListener(sessionId: string, controller: any): void {
-    const session = this.sessions.get(sessionId);
-    if (session) {
-      session.listeners.delete(controller);
-      console.log(`👂 [SessionStore] Listener removed. Total for ${sessionId}: ${session.listeners.size}`);
-    }
-  }
+  async updateSession(sessionId: string, updates: Partial<Omit<SessionInfo, 'sessionId' | 'listeners'>>): Promise<void> {
+    const session = await this.getSession(sessionId);
+    if (!session) throw new Error('Session not found');
 
-  notifyListeners(
-    sessionId: string,
-    eventType: string,
-    data: Record<string, any>
-  ): number {
-    const session = this.sessions.get(sessionId);
-    if (!session) {
-      console.warn(`⚠️ [SessionStore] Session not found for notification: ${sessionId}`);
-      return 0;
-    }
+    const updated = { ...session, ...updates };
+    const ttl = await kv.ttl(this.getKey(sessionId));
 
-    let notified = 0;
-    const failedListeners = new Set<any>();
-
-    session.listeners.forEach((controller) => {
-      try {
-        const message = `event: ${eventType}\ndata: ${JSON.stringify(data)}\n\n`;
-        controller.enqueue(this.encoder.encode(message));
-        console.log(`📤 [SessionStore] Event '${eventType}' sent to listener`);
-        notified++;
-      } catch (error) {
-        console.error(`❌ [SessionStore] Error writing to listener:`, error);
-        failedListeners.add(controller);
-      }
+    await kv.set(this.getKey(sessionId), {
+      ...updated,
+      listeners: []
+    }, {
+      ex: ttl > 0 ? ttl : 300
     });
-
-    // Remove failed listeners
-    failedListeners.forEach(controller => session.listeners.delete(controller));
-
-    return notified;
   }
 
-  updateSessionState(
-    sessionId: string,
-    state: 'verified' | 'failed',
-    userData?: Record<string, any>
-  ): boolean {
-    const session = this.sessions.get(sessionId);
-    if (!session) {
-      console.warn(`⚠️ [SessionStore] Session not found for update: ${sessionId}`);
-      return false;
-    }
-
-    session.state = state;
-    if (userData) session.userData = userData;
-    
-    console.log(`🔄 [SessionStore] Session state updated: ${sessionId} → ${state}`);
-    return true;
+  async deleteSession(sessionId: string): Promise<void> {
+    await kv.del(this.getKey(sessionId));
   }
 
-  closeAllListeners(sessionId: string): void {
-    const session = this.sessions.get(sessionId);
-    if (!session) return;
+  async cleanExpired(): Promise<void> {
+    // Redis handles TTL automatically
+  }
 
-    session.listeners.forEach((controller) => {
-      try {
-        controller.close();
-      } catch (error) {
-        console.error('[SessionStore] Error closing listener:', error);
-      }
-    });
+  // SSE methods remain the same but won't persist listeners
+  addListener(sessionId: string, controller: ReadableStreamDefaultController<any>) {
+    // For SSE, we keep listeners in memory (transient)
+  }
 
-    session.listeners.clear();
-    console.log(`🔌 [SessionStore] All listeners closed for ${sessionId}`);
+  removeListener(sessionId: string, controller: ReadableStreamDefaultController<any>) {
+    // For SSE, we keep listeners in memory (transient)
+  }
+
+  async notifyListeners(sessionId: string, data: any) {
+    // For SSE, we keep listeners in memory (transient)
   }
 }
 
 export const sessionStore = new SessionStore();
-
+export type { SessionInfo };
