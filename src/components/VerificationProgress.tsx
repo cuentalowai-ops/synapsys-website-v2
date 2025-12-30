@@ -22,19 +22,19 @@ export function VerificationProgress({
 
   return (
     <div className="space-y-6">
-      {/* Progress Bar */}
+      {/* Progress Bar - Brutalista */}
       <div>
         <div className="flex justify-between mb-2">
-          <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-            Progreso
+          <span className="text-xs font-mono text-gray-500 dark:text-gray-400 uppercase">
+            PROGRESS
           </span>
-          <span className="text-sm font-medium text-blue-600">
+          <span className="text-xs font-mono text-blue-600">
             {Math.round(progress)}%
           </span>
         </div>
-        <div className="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+        <div className="h-2 bg-gray-200 dark:bg-gray-800 border border-gray-300 dark:border-gray-700">
           <motion.div
-            className="h-full bg-gradient-to-r from-blue-600 to-blue-500"
+            className="h-full bg-blue-600"
             initial={{ width: '0%' }}
             animate={{ width: `${progress}%` }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
@@ -42,29 +42,31 @@ export function VerificationProgress({
         </div>
       </div>
 
-      {/* Steps Timeline */}
-      <div className="space-y-3">
+      {/* Steps Timeline - Brutalista */}
+      <div className="space-y-2">
         {steps.map((step, index) => (
-          <div key={step.id} className="flex items-center gap-3">
-            {/* Step indicator */}
+          <div key={step.id} className="flex items-center gap-3 border-b border-gray-200 dark:border-gray-800 pb-2">
+            {/* Step indicator - Cuadrado, no redondo */}
             <div
-              className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold transition-all ${
+              className={`w-8 h-8 border-2 flex items-center justify-center text-xs font-mono ${
                 step.status === 'completed'
-                  ? 'bg-green-500 text-white'
+                  ? 'border-green-600 text-green-600 bg-green-50 dark:bg-green-900/20'
                   : step.status === 'active'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-slate-200 dark:bg-slate-800 text-slate-500'
+                    ? 'border-blue-600 text-blue-600 bg-blue-50 dark:bg-blue-900/20'
+                    : 'border-gray-300 dark:border-gray-700 text-gray-400 bg-gray-50 dark:bg-gray-900'
               }`}
             >
               {step.status === 'completed' ? '✓' : index + 1}
             </div>
 
-            {/* Step label */}
+            {/* Step label - Font Sans para humanos */}
             <span
-              className={`text-sm font-medium transition-colors ${
+              className={`text-sm font-sans transition-colors ${
                 step.status === 'active'
-                  ? 'text-blue-600'
-                  : 'text-slate-600 dark:text-slate-400'
+                  ? 'text-blue-600 font-bold'
+                  : step.status === 'completed'
+                    ? 'text-gray-600 dark:text-gray-400'
+                    : 'text-gray-400 dark:text-gray-500'
               }`}
             >
               {step.label}
@@ -75,4 +77,3 @@ export function VerificationProgress({
     </div>
   )
 }
-

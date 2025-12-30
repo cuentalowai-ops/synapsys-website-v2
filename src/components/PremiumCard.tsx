@@ -13,24 +13,19 @@ interface PremiumCardProps {
 export function PremiumCard({
   children,
   className,
-  elevated = true,
-  interactive = true,
+  elevated = false,
+  interactive = false,
 }: PremiumCardProps) {
   return (
     <div
       className={cn(
-        // Base styles
-        'bg-white dark:bg-slate-900',
-        'rounded-2xl',
-        'p-6 md:p-8',
-        'border border-slate-200 dark:border-slate-800',
-
-        // Elevation
-        elevated && 'shadow-lg',
-
-        // Interactive
-        interactive &&
-          'transition-all duration-200 hover:shadow-xl hover:-translate-y-1',
+        // Base styles - Brutalismo Técnico
+        'bg-white dark:bg-black',
+        'border border-gray-300 dark:border-gray-700',
+        'p-6',
+        
+        // Sin decoración
+        // NO rounded, NO shadow, NO gradient, NO blur
 
         className
       )}
@@ -39,4 +34,3 @@ export function PremiumCard({
     </div>
   )
 }
-

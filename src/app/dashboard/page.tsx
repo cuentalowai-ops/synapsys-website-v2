@@ -215,22 +215,22 @@ export default function Dashboard() {
   if (!mounted) return null
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors font-inter">
-      {/* ===== HEADER PREMIUM ===== */}
-      <header className="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+    <div className="min-h-screen bg-white dark:bg-black font-sans">
+      {/* ===== HEADER BRUTALISTA ===== */}
+      <header className="sticky top-0 z-50 bg-white dark:bg-black border-b border-gray-300 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-teal-400 rounded-lg flex items-center justify-center text-white font-bold text-sm">
+            <div className="w-8 h-8 bg-blue-600 flex items-center justify-center text-white font-bold text-sm border border-blue-700">
               S
             </div>
-            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-300">
+            <span className="text-xl font-bold text-gray-900 dark:text-white">
               SYNAPSYS
             </span>
           </div>
 
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            className="p-2 border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-900"
             aria-label="Toggle dark mode"
           >
             {theme === 'dark' ? '☀️' : '🌙'}
@@ -238,19 +238,19 @@ export default function Dashboard() {
         </div>
       </header>
 
-      {/* ===== MAIN CONTENT ===== */}
-      <main className="max-w-5xl mx-auto px-4 py-12">
+      {/* ===== MAIN CONTENT - RETÍCULA ESTRICTA ===== */}
+      <main className="max-w-7xl mx-auto">
         {/* Status Banner - Success */}
         {status === 'success' && (
-          <div className="mb-8 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl flex items-center gap-4 animate-fade-in">
-            <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white text-xl flex-shrink-0">
-              ✓
+          <div className="border-b border-gray-300 dark:border-gray-700 bg-white dark:bg-black p-4 flex items-center gap-4">
+            <div className="w-8 h-8 border-2 border-green-600 flex items-center justify-center text-green-600 text-sm font-mono">
+              OK
             </div>
             <div className="flex-1">
-              <h3 className="font-bold text-green-800 dark:text-green-300">
+              <h3 className="font-sans font-bold text-gray-900 dark:text-white">
                 Identidad Verificada
               </h3>
-              <p className="text-sm text-green-700 dark:text-green-400">
+              <p className="text-sm font-sans text-gray-600 dark:text-gray-400">
                 Las credenciales han sido validadas criptográficamente.
               </p>
             </div>
@@ -259,20 +259,20 @@ export default function Dashboard() {
 
         {/* Status Banner - Error */}
         {status === 'error' && (
-          <div className="mb-8 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl flex items-center gap-4 animate-fade-in">
-            <div className="w-10 h-10 rounded-full bg-red-500 flex items-center justify-center text-white text-xl flex-shrink-0">
-              ✕
+          <div className="border-b border-gray-300 dark:border-gray-700 bg-white dark:bg-black p-4 flex items-center gap-4">
+            <div className="w-8 h-8 border-2 border-red-600 flex items-center justify-center text-red-600 text-sm font-mono">
+              ERR
             </div>
             <div className="flex-1">
-              <h3 className="font-bold text-red-800 dark:text-red-300">
+              <h3 className="font-sans font-bold text-gray-900 dark:text-white">
                 Error de Verificación
               </h3>
-              <p className="text-sm text-red-700 dark:text-red-400">
+              <p className="text-sm font-sans text-gray-600 dark:text-gray-400">
                 {errorMsg}
               </p>
               <button
                 onClick={() => startVerification()}
-                className="mt-2 text-sm font-medium text-red-600 dark:text-red-400 hover:underline"
+                className="mt-2 text-sm font-sans text-blue-600 hover:underline"
               >
                 Reintentar
               </button>
@@ -280,174 +280,166 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* Layout Grid: 2 columns on desktop */}
-        <div className="grid lg:grid-cols-12 gap-8">
+        {/* Layout Grid: Retícula Estricta */}
+        <div className="grid grid-cols-12 border-b border-gray-300 dark:border-gray-700">
           {/* ===== LEFT COLUMN: PROGRESS & SECURITY ===== */}
-          <div className="lg:col-span-5 space-y-6">
-            {/* Progress Card */}
-            <PremiumCard>
-              <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6">
+          <div className="col-span-12 lg:col-span-5 border-r border-gray-300 dark:border-gray-700">
+            {/* Progress Section */}
+            <div className="border-b border-gray-300 dark:border-gray-700 p-6">
+              <h2 className="text-lg font-sans font-bold text-gray-900 dark:text-white mb-6">
                 Proceso de Verificación
               </h2>
               <VerificationProgress
                 steps={steps}
                 currentStep={currentStepIndex >= 0 ? currentStepIndex : 0}
               />
-            </PremiumCard>
+            </div>
 
-            {/* Security Badge Card */}
-            <PremiumCard className="bg-gradient-to-br from-blue-600 to-blue-800 text-white border-none shadow-lg">
-              <h3 className="font-bold mb-2 text-lg">Seguridad de Nivel Bancario</h3>
-              <p className="text-blue-100 text-sm mb-4">
-                Esta sesión está protegida con encriptación end-to-end y cumple con
-                eIDAS 2.0, NIS2 y ISO 27001.
-              </p>
-              <div className="flex gap-2 flex-wrap">
-                <span className="px-2 py-1 bg-white/20 rounded text-xs font-medium">
-                  🔐 NIS2 Compliant
-                </span>
-                <span className="px-2 py-1 bg-white/20 rounded text-xs font-medium">
-                  ✓ ISO 27001
-                </span>
-                <span className="px-2 py-1 bg-white/20 rounded text-xs font-medium">
-                  ⚡ GDPR Ready
-                </span>
+            {/* Security Badges - Estilo Código */}
+            <div className="border-b border-gray-300 dark:border-gray-700 p-6 bg-gray-50 dark:bg-gray-900">
+              <h3 className="text-sm font-sans font-bold text-gray-900 dark:text-white mb-4">COMPLIANCE</h3>
+              <div className="space-y-2">
+                <div className="bg-gray-100 dark:bg-gray-800 px-2 py-1 text-xs font-mono text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-700">
+                  NIS2_COMPLIANT
+                </div>
+                <div className="bg-gray-100 dark:bg-gray-800 px-2 py-1 text-xs font-mono text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-700">
+                  ISO_27001
+                </div>
+                <div className="bg-gray-100 dark:bg-gray-800 px-2 py-1 text-xs font-mono text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-700">
+                  GDPR_READY
+                </div>
               </div>
-            </PremiumCard>
+            </div>
 
-            {/* Session Info Card (if pending or success) */}
+            {/* Session Info - Estilo Técnico */}
             {sessionId && (
-              <PremiumCard>
-                <h3 className="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-2">
-                  SESSION IDENTIFIER
+              <div className="p-6">
+                <h3 className="text-xs font-mono text-gray-500 dark:text-gray-400 mb-2 uppercase">
+                  SESSION_ID
                 </h3>
-                <p className="text-xs font-mono text-slate-700 dark:text-slate-300 break-all bg-slate-50 dark:bg-slate-800/50 p-2 rounded border border-slate-200 dark:border-slate-700">
-                  {sessionId}
-                </p>
-              </PremiumCard>
+                <div className="bg-gray-50 dark:bg-gray-900 p-3 border border-gray-300 dark:border-gray-700">
+                  <p className="text-xs font-mono text-gray-900 dark:text-white break-all">
+                    {sessionId}
+                  </p>
+                </div>
+              </div>
             )}
           </div>
 
           {/* ===== RIGHT COLUMN: QR SCANNING ===== */}
-          <div className="lg:col-span-7">
-            <PremiumCard className="h-full flex flex-col items-center justify-center min-h-[500px] py-12">
+          <div className="col-span-12 lg:col-span-7">
+            <div className="p-6 min-h-[500px] flex flex-col items-center justify-center border-b border-gray-300 dark:border-gray-700">
               {/* LOADING STATE */}
               {status === 'loading' && (
-                <div className="flex flex-col items-center gap-4 animate-pulse">
-                  <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-                  <p className="text-slate-600 dark:text-slate-400 font-medium">
+                <div className="flex flex-col items-center gap-4">
+                  <div className="w-12 h-12 border-2 border-blue-600 border-t-transparent animate-spin"></div>
+                  <p className="text-sm font-sans text-gray-600 dark:text-gray-400">
                     Iniciando motor criptográfico...
                   </p>
-                  <p className="text-xs text-slate-500 dark:text-slate-500">
-                    Conectando con backend seguro
+                  <p className="text-xs font-mono text-gray-500 dark:text-gray-500">
+                    CONNECTING_TO_BACKEND
                   </p>
                 </div>
               )}
 
               {/* PENDING STATE - QR Code */}
               {status === 'pending' && qrLink && (
-                <div className="w-full flex flex-col items-center gap-8 animate-fade-in">
+                <div className="w-full flex flex-col items-center gap-6">
                   <div className="text-center">
-                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+                    <h2 className="text-xl font-sans font-bold text-gray-900 dark:text-white mb-2">
                       Escanea para Verificar
                     </h2>
-                    <p className="text-slate-600 dark:text-slate-400 max-w-sm mx-auto">
+                    <p className="text-sm font-sans text-gray-600 dark:text-gray-400 max-w-sm mx-auto">
                       Utiliza tu EUDI Wallet compatible para escanear este código QR
                       único y vinculado a esta sesión.
                     </p>
                   </div>
 
-                  {/* QR Code with Glow */}
-                  <div className="relative group">
-                    {/* Animated glow background */}
-                    <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-teal-400 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 animate-pulse"></div>
-
-                    {/* QR Code */}
-                    <div className="relative bg-white p-6 rounded-xl shadow-xl">
-                      <QRCodeSVG
-                        value={qrLink}
-                        size={256}
-                        level="H"
-                        includeMargin={true}
-                        fgColor="#000000"
-                        bgColor="#ffffff"
-                      />
-                    </div>
+                  {/* QR Code - Marco Técnico */}
+                  <div className="border-2 border-gray-300 dark:border-gray-700 p-4 bg-white dark:bg-black">
+                    <QRCodeSVG
+                      value={qrLink}
+                      size={256}
+                      level="H"
+                      includeMargin={true}
+                      fgColor="#000000"
+                      bgColor="#ffffff"
+                    />
                   </div>
 
-                  {/* Session indicator */}
-                  <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 font-mono">
-                    <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                    <span>Sesión activa: {sessionId.slice(0, 16)}...</span>
+                  {/* Session indicator - Estilo Técnico */}
+                  <div className="flex items-center gap-2 text-xs font-mono text-gray-500 dark:text-gray-400">
+                    <span className="w-2 h-2 bg-blue-600"></span>
+                    <span>SESSION_ACTIVE: {sessionId.slice(0, 16)}...</span>
                   </div>
 
                   {/* Waiting message */}
-                  <p className="text-sm text-slate-600 dark:text-slate-400 text-center max-w-sm animate-pulse">
-                    Esperando verificación del dispositivo móvil...
+                  <p className="text-xs font-mono text-gray-500 dark:text-gray-400 text-center">
+                    WAITING_FOR_VERIFICATION...
                   </p>
                 </div>
               )}
 
               {/* SUCCESS STATE - Result */}
               {status === 'success' && userData && (
-                <div className="text-center w-full gap-8 flex flex-col items-center animate-slide-in">
-                  {/* Celebration Icon */}
-                  <div className="w-24 h-24 bg-gradient-to-br from-green-100 to-teal-100 dark:from-green-900/30 dark:to-teal-900/30 rounded-full flex items-center justify-center animate-bounce">
-                    <span className="text-4xl">🎉</span>
+                <div className="text-center w-full gap-6 flex flex-col items-center">
+                  {/* Success Indicator */}
+                  <div className="w-16 h-16 border-2 border-green-600 flex items-center justify-center text-green-600 text-2xl font-mono">
+                    ✓
                   </div>
 
                   {/* Success Message */}
                   <div>
-                    <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
+                    <h2 className="text-2xl font-sans font-bold text-gray-900 dark:text-white mb-2">
                       {userData.given_name || 'Usuario'} Verificado
                     </h2>
-                    <p className="text-slate-600 dark:text-slate-400">
+                    <p className="text-sm font-sans text-gray-600 dark:text-gray-400">
                       Todos los controles de seguridad superados correctamente.
                     </p>
                   </div>
 
-                  {/* User Data Card */}
-                  <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-6 w-full max-w-sm border border-slate-200 dark:border-slate-700">
+                  {/* User Data - Estilo Técnico */}
+                  <div className="bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 p-6 w-full max-w-sm">
                     <div className="space-y-3">
                       {userData.given_name && (
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-slate-600 dark:text-slate-400">
-                            Nombre
+                        <div className="flex justify-between items-center border-b border-gray-300 dark:border-gray-700 pb-2">
+                          <span className="text-xs font-mono text-gray-500 dark:text-gray-400 uppercase">
+                            NAME
                           </span>
-                          <span className="font-medium text-slate-900 dark:text-white">
+                          <span className="text-sm font-sans text-gray-900 dark:text-white">
                             {userData.given_name} {userData.family_name || ''}
                           </span>
                         </div>
                       )}
 
                       {userData.nationality && (
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-slate-600 dark:text-slate-400">
-                            Nacionalidad
+                        <div className="flex justify-between items-center border-b border-gray-300 dark:border-gray-700 pb-2">
+                          <span className="text-xs font-mono text-gray-500 dark:text-gray-400 uppercase">
+                            NATIONALITY
                           </span>
-                          <span className="font-medium text-slate-900 dark:text-white">
+                          <span className="text-sm font-sans text-gray-900 dark:text-white">
                             {userData.nationality}
                           </span>
                         </div>
                       )}
 
                       {userData.document_number && (
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-slate-600 dark:text-slate-400">
-                            Documento
+                        <div className="flex justify-between items-center border-b border-gray-300 dark:border-gray-700 pb-2">
+                          <span className="text-xs font-mono text-gray-500 dark:text-gray-400 uppercase">
+                            DOCUMENT
                           </span>
-                          <span className="font-mono text-sm text-slate-900 dark:text-white">
+                          <span className="text-xs font-mono text-gray-900 dark:text-white">
                             {userData.document_number.slice(-6)}...
                           </span>
                         </div>
                       )}
 
                       {/* Trust Score */}
-                      <div className="pt-3 border-t border-slate-200 dark:border-slate-700 flex justify-between items-center">
-                        <span className="text-xs text-slate-600 dark:text-slate-400 uppercase font-semibold">
-                          Trust Score
+                      <div className="pt-2 border-t-2 border-gray-300 dark:border-gray-700 flex justify-between items-center">
+                        <span className="text-xs font-mono text-gray-500 dark:text-gray-400 uppercase">
+                          TRUST_SCORE
                         </span>
-                        <span className="text-lg font-bold bg-gradient-to-r from-green-500 to-teal-500 bg-clip-text text-transparent">
+                        <span className="text-lg font-mono text-blue-600">
                           98/100
                         </span>
                       </div>
@@ -464,68 +456,64 @@ export default function Dashboard() {
                         setUserData(null)
                         startVerification()
                       }}
-                      className="flex-1 px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+                      className="flex-1 px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white border border-blue-700 font-sans text-sm"
                     >
                       Nueva Verificación
                     </button>
                     <button
                       onClick={() => (window.location.href = '/')}
-                      className="flex-1 px-6 py-2 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg font-medium transition-colors"
+                      className="flex-1 px-6 py-2 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-900 font-sans text-sm"
                     >
                       Volver
                     </button>
                   </div>
                 </div>
               )}
-            </PremiumCard>
+            </div>
           </div>
         </div>
 
-        {/* ===== INFO FOOTER ===== */}
-        <PremiumCard className="mt-12">
-          <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6">
+        {/* ===== INFO FOOTER - Estilo Técnico ===== */}
+        <div className="border-b border-gray-300 dark:border-gray-700 p-6">
+          <h3 className="text-lg font-sans font-bold text-gray-900 dark:text-white mb-6">
             ¿Por qué confiar en SYNAPSYS?
           </h3>
           <div className="grid md:grid-cols-3 gap-6">
             {[
               {
-                icon: '🔒',
                 title: 'Seguridad Máxima',
                 desc: 'Encriptación end-to-end con protocolos bancarios',
               },
               {
-                icon: '⚡',
                 title: 'Ultra rápido',
                 desc: 'Verificación completa en menos de 2 segundos',
               },
               {
-                icon: '✓',
                 title: 'Cumplimiento Legal',
                 desc: 'Certificado eIDAS 2.0, NIS2 e ISO 27001',
               },
             ].map((item, i) => (
               <div
                 key={i}
-                className="text-center p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50"
+                className="border border-gray-300 dark:border-gray-700 p-4"
               >
-                <div className="text-4xl mb-3">{item.icon}</div>
-                <h4 className="font-semibold text-slate-900 dark:text-white mb-2">
+                <h4 className="font-sans font-semibold text-gray-900 dark:text-white mb-2">
                   {item.title}
                 </h4>
-                <p className="text-sm text-slate-600 dark:text-slate-400">
+                <p className="text-sm font-sans text-gray-600 dark:text-gray-400">
                   {item.desc}
                 </p>
               </div>
             ))}
           </div>
-        </PremiumCard>
+        </div>
       </main>
 
-      {/* ===== FOOTER ===== */}
-      <footer className="border-t border-slate-200 dark:border-slate-800 py-8 mt-12">
-        <div className="max-w-5xl mx-auto px-4 text-center text-sm text-slate-600 dark:text-slate-400">
+      {/* ===== FOOTER BRUTALISTA ===== */}
+      <footer className="border-t border-gray-300 dark:border-gray-700 py-6">
+        <div className="max-w-7xl mx-auto px-4 text-center text-xs font-mono text-gray-500 dark:text-gray-400">
           <p>© 2025 SYNAPSYS. Privacidad garantizada bajo GDPR, NIS2, ISO 27001.</p>
-          <p className="mt-2 text-xs">
+          <p className="mt-2">
             SSE-Powered Real-Time Verification | eIDAS 2.0 Compliant
           </p>
         </div>
